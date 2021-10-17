@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/gaminandes_snap.ogg-49b0e08979d8748f939fc1997d62781b.oggstr"
+
+[deps]
+
+source_file="res://sounds/gaminandes_snap.ogg"
+dest_files=[ "res://.import/gaminandes_snap.ogg-49b0e08979d8748f939fc1997d62781b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

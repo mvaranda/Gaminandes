@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/claps.ogg-04ce9678eb3b1c574db42a1539c4eebd.oggstr"
+
+[deps]
+
+source_file="res://sounds/claps.ogg"
+dest_files=[ "res://.import/claps.ogg-04ce9678eb3b1c574db42a1539c4eebd.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

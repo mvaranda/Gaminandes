@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://blender_scene.tscn" type="PackedScene" id=1]
+
+[node name="RootNode" type="Node"]
+
+[node name="Level_1" type="Node" parent="."]
+
+[node name="Camera2" type="Camera" parent="Level_1"]
+transform = Transform( 1, 0, 0, 0, 0.947087, 0.320977, 0, -0.320977, 0.947087, 0, 1.94704, 2.38477 )
+
+[node name="blender_scene" parent="Level_1" instance=ExtResource( 1 )]
