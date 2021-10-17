@@ -1,12 +1,23 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://blender_scene.tscn" type="PackedScene" id=1]
+[ext_resource path="res://fence_light.glb" type="PackedScene" id=2]
 
 [node name="RootNode" type="Node"]
 
 [node name="Level_1" type="Node" parent="."]
 
 [node name="Camera2" type="Camera" parent="Level_1"]
-transform = Transform( 1, 0, 0, 0, 0.947087, 0.320977, 0, -0.320977, 0.947087, 0, 1.94704, 2.38477 )
+transform = Transform( 1, 0, 0, 0, 0.998298, 0.0583136, 0, -0.0583136, 0.998298, 0.135379, 2.06517, 2.10178 )
+fov = 62.6655
+far = 30.0
 
 [node name="blender_scene" parent="Level_1" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.987151, -0.0782197, -0.505524 )
+
+[node name="fence_light" parent="." instance=ExtResource( 2 )]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.64248, 3.70862 )
+light_energy = 0.52
+light_specular = 0.37
