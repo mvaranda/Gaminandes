@@ -18,6 +18,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.987151, -0.0782197, -0.50552
 [node name="fence_light" parent="." instance=ExtResource( 2 )]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.64248, 3.70862 )
+transform = Transform( 0.970855, 0, -0.239669, 0.132481, 0.833336, 0.536656, 0.199725, -0.552766, 0.809049, 1.78167, 3.64248, 3.70862 )
 light_energy = 0.52
 light_specular = 0.37
+shadow_enabled = true
