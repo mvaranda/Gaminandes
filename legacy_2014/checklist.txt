@@ -1,0 +1,62 @@
+
+To deploy PREMIUM for BB10:
+===========================
+
+1- Build Configuration: release
+
+2- common.h: comment LOG
+
+3- uncomment #define PREMIUM
+
+4- update form_main.form with version number
+
+5- Bar-descriptor:
+  Tab General
+    Packege Name: com.gclabs.caminandes
+    Packege Version: increment version
+    Packege ID: increment it
+  Tab Application:
+	uncheck Device Identifying Information
+    Name: Gaminandes
+
+6- Clean and build
+
+7- Bar-descriptor: export release build naming "gaminandes_premium"
+
+8- test BAR in a device
+
+9- create a release tag:
+	checkin svn
+    svn copy https://cglabs.svn.cloudforge.com/cglabs/trunk/gameplay_platform/cglabs_games/caminandes/ https://cglabs.svn.cloudforge.com/cglabs/tags/caminandes_BB10_Premium_1.0.X
+
+
+To deploy Sponsored for BB10:
+===========================
+
+1- Build Configuration: release
+
+2- common.h: comment LOG
+
+3- comment #define PREMIUM
+
+4- update form_main.form with version number
+
+5- Bar-descriptor:
+  Tab General
+    Packege Name: com.gclabs.caminandes_sp
+    Packege Version: increment version
+    Packege ID: increment it
+  Tab Application:
+	check Device Identifying Information
+    Name: Gaminandes-SP
+
+6- Clean and build
+
+7- Bar-descriptor: export release build naming "gaminandes_sp"
+
+8- test BAR in a device
+
+9- create a release tag:
+	checkin svn
+    svn copy https://cglabs.svn.cloudforge.com/cglabs/trunk/gameplay_platform/cglabs_games/caminandes/ https://cglabs.svn.cloudforge.com/cglabs/tags/caminandes_BB10_Sponsored_1.0.X
+

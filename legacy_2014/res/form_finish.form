@@ -1,0 +1,29 @@
+form basicControls
+{
+    layout = LAYOUT_ABSOLUTE
+    size = 800, 550
+    batchingEnabled = false
+    position = 0, 110
+
+//	button aboutButton
+//	{
+//		position = 10, 490
+//		text = Support
+//	}
+
+	button restartButton
+	{
+		//position = 560, 490
+    position = 300, 420
+		text = Restart
+	}
+
+
+
+	image testImage
+	{
+    position = 10, 80
+    size = 760, 300
+		path = res/textures/congrats_start_160_280.png
+	}
+}

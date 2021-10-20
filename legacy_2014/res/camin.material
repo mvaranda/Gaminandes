@@ -1,0 +1,332 @@
+material textured
+{
+    u_worldViewProjectionMatrix = WORLD_VIEW_PROJECTION_MATRIX
+    
+    sampler u_diffuseTexture
+    {
+        mipmap = true
+        wrapS = CLAMP
+        wrapT = CLAMP
+        minFilter = LINEAR_MIPMAP_LINEAR
+        magFilter = LINEAR
+    }
+
+    renderState
+    {
+        cullFace = true
+        depthTest = true
+    }
+    
+    technique
+    {
+        pass 
+        {
+            vertexShader = res/shaders/textured.vert
+            fragmentShader = res/shaders/textured.frag
+        }
+    }
+}
+
+material colored
+{
+    u_worldViewProjectionMatrix = WORLD_VIEW_PROJECTION_MATRIX
+    
+    renderState
+    {
+        cullFace = true
+        depthTest = true
+    }
+    
+    technique
+    {
+        pass 
+        {
+            vertexShader = res/shaders/colored.vert
+            fragmentShader = res/shaders/colored.frag
+        }
+    }
+}
+
+material bush_back_mat__bush_back_png : textured
+{
+    u_ambientColor = 1, 1, 1
+    u_inverseTransposeWorldViewMatrix = INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/bush_back.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+    renderState
+    {
+        blend = true
+        blendSrc = SRC_ALPHA
+        blendDst = ONE_MINUS_SRC_ALPHA
+    }
+
+}
+
+material bush_front_mat__bush_front_png : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/bush_front.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+    renderState
+    {
+        blend = true
+        blendSrc = SRC_ALPHA
+        blendDst = ONE_MINUS_SRC_ALPHA
+    }
+
+}
+
+material fence_electric_chrome_001__iron_pool_texture_png : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/iron_pool_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_chrome_001__isolator : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/isolator.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_chrome_001__light_texture : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/light_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_chrome_002__light_texture : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/light_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_chrome_darker_001__light_texture : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/light_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_darkdiffuse_001__light_texture : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/light_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_emission_001__light_on_texture_png : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/light_on_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_emission_001__light_texture : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/light_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_light_orange_001__light_on_texture_png : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/light_on_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_light_orange_001__light_texture : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/light_texture.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_metal_001__isolator : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/isolator.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material fence_electric_metal_red_001__isolator : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/isolator.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material mountains_mat__mountains_png : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/mountains.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material mountains_middle_range_mat__mountains_midground_png_001 : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/mountains_midground.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+    renderState
+    {
+        blend = true
+        blendSrc = SRC_ALPHA
+        blendDst = ONE_MINUS_SRC_ALPHA
+    }
+
+}
+
+material mv_wires_mat__wire_text : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/wire_text.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material sprite_main_mat__jump_0749_png_001 : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/jump_0001.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material terrain_mat__terrain_text_pre_02_png_001 : textured
+{
+    u_ambientColor = 1, 1, 1
+    
+    sampler u_diffuseTexture
+    {
+        path = res/textures/terrain_text.png
+        wrapS = REPEAT
+        wrapT = REPEAT
+    }
+
+}
+
+material unnamed : colored
+{
+    u_ambientColor = 1, 1, 1
+    u_cameraPosition = CAMERA_WORLD_POSITION
+    u_diffuseColor = 0.8, 0.8, 0.8, 1
+    u_inverseTransposeWorldViewMatrix = INVERSE_TRANSPOSE_WORLD_VIEW_MATRIX
+    u_specularExponent = 12.3
+    
+    technique
+    {
+        pass 
+        {
+            defines = SPECULAR
+        }
+    }
+}
+

@@ -1,0 +1,120 @@
+form basicControls
+{
+    layout = LAYOUT_ABSOLUTE
+    size = 800, 600
+    batchingEnabled = false
+    position = 0, 60
+
+	label title
+	{
+		position = 260, 10
+		text = Gaminandes
+        fontSize = 56
+	}
+		
+	checkbox muteAllCheckbox
+	{
+		position = 20, 84
+		text = Mute All.
+	}
+
+    checkbox muteSongCheckbox
+    {
+        position = 20, 180
+        text = Mute Song.
+    }
+
+
+//	container radioButtonContainer
+//	{
+//		layout = LAYOUT_VERTICAL
+//		position = 20, 280
+//        style = Panel
+//
+//
+//		radioButton choice1
+//		{
+//            //position = 20, 180
+//			text = Jazz Song.
+//			group = testRadio
+//			selected = true
+//		}
+//        
+//        label textBoxLabel
+//        {
+//            //position = 300, 140
+//            //size = 200, 60
+//            text = .
+//        }
+//
+//
+//		radioButton choice2 : choice1
+//		{
+//			text = Reggae Song.
+//			selected = false
+//		}
+//
+//	}
+
+//    label textBoxLabel
+//    {
+//        position = 220, 45
+//        size = 200, 60
+//        text = Max Scores:
+//    }
+//
+//    textBox testTextBox
+//    {
+//        position = 220, 85
+//        size = 280, 120
+//        text = CG Labe      80000
+//    }
+//
+//    label textBoxLabel
+//    {
+//        position = 270, 200
+//        size = 200, 60
+//        text = Player Name:
+//    }
+//
+
+	button supportButton
+	{
+		position = 535, 85
+		text = Support
+	}
+
+	button restartButton
+	{
+		position = 535, 280
+		text = Restart
+	}
+
+	button resumeButton
+	{
+		position = 530, 470
+		text = Resume
+	}
+    
+//    textBox testTextBox
+//    {
+//        position = 20, 250
+//        size = 460, 300
+//    }
+
+
+	image testImage
+	{
+        position = 20, 250
+        size = 460, 300
+		path = res/textures/credits.png
+	}
+
+	label version
+	{
+		position = 25, 550
+		text = version: 1.1.0
+        fontSize = 36
+	}
+
+}

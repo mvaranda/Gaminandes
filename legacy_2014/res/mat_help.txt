@@ -1,0 +1,15 @@
+Need to add:
+
+    renderState
+    {
+        blend = true
+        blendSrc = SRC_ALPHA
+        blendDst = ONE_MINUS_SRC_ALPHA
+    }
+
+
+to:
+
+material mountains_middle_range_mat__mountains_midground_png_001 : textured
+material bush_back_mat__bush_back_png : textured
+material bush_front_mat__bush_front_png : textured

@@ -1,0 +1,2 @@
+android update project -t 3 -p . -s
+
