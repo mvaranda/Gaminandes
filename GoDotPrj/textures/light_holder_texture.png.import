@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/iron_pool_texture.png-5400aac9a88b135a4f524db2d817043c.s3tc.stex"
-path.etc="res://.import/iron_pool_texture.png-5400aac9a88b135a4f524db2d817043c.etc.stex"
+path.s3tc="res://.import/light_holder_texture.png-8afa24ad1a4cf10c42399403bd899071.s3tc.stex"
+path.etc="res://.import/light_holder_texture.png-8afa24ad1a4cf10c42399403bd899071.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/iron_pool_texture.png"
-dest_files=[ "res://.import/iron_pool_texture.png-5400aac9a88b135a4f524db2d817043c.s3tc.stex", "res://.import/iron_pool_texture.png-5400aac9a88b135a4f524db2d817043c.etc.stex" ]
+source_file="res://textures/light_holder_texture.png"
+dest_files=[ "res://.import/light_holder_texture.png-8afa24ad1a4cf10c42399403bd899071.s3tc.stex", "res://.import/light_holder_texture.png-8afa24ad1a4cf10c42399403bd899071.etc.stex" ]
 
 [params]
 
