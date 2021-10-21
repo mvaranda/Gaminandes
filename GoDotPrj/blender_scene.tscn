@@ -10,5 +10,5 @@
 material/0 = ExtResource( 1 )
 
 [node name="lama" parent="." index="2"]
-transform = Transform( 1.7112, 0, 0, 0, 1.7112, 0, 0, 0, 1.7112, -1.88329, -0.0846506, -0.893841 )
+transform = Transform( 1.7112, 0, 0, 0, 1.7112, 0, 0, 0, 1.7112, -1.88329, -0.13036, -0.893841 )
 material/0 = ExtResource( 2 )
