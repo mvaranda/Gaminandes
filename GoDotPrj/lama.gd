@@ -15,7 +15,32 @@ const ST_PULLING_BACK = 2
 const ST_SHOCKING     = 3
 
 var state = ST_FREE_MOVING
-			
+
+const TEXTURE_START_IMG = 462
+const TEXTURE_FINAL_IMG = 477
+const TEXTURE_FILENAME_PREFIX = "res://sprites/walk1/walk1_0"
+const TEXTURE_FILENAME_EXTENSION = ".png"
+var images = []
+var image_idx = 0
+
+var image = load("res://sprites/walk1/walk1_0462.png")
+onready var mesh_i = get_node("MeshInstance")
+
+# Get the material in slot 0
+onready var material_one = get_surface_material(0)
+
+# Change the texture
+#material_one.albedo_texture = image
+# Reassign the material
+#mesh.set_surface_material(0, material_one)
+	
+func load_images():
+	var name
+	for n in range(TEXTURE_START_IMG, TEXTURE_FINAL_IMG + 1):
+		name = TEXTURE_FILENAME_PREFIX + String(n) + TEXTURE_FILENAME_EXTENSION
+		print(name)
+		images.append(load(name))
+
 func process_key(val, pressed, shift):
 	print("process_key: got " + val)
 	if pressed == false:
@@ -39,6 +64,8 @@ func _ready():
 	var n = get_node("/root/RootNode/Level_1")
 	print(n)
 	n.connect("key_signal", self, "process_key");
+	print("image:" + image.to_string())
+	load_images()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -53,4 +80,10 @@ func _process(delta):
 		#position.x -= NORMAL_SPEED * delta;
 		print("translate back")
 		translate(get_transform().basis.xform(-localTranslate))
-	pass
+	
+	material_one.albedo_texture = images[image_idx]
+	image_idx += 1
+	if image_idx >= images.size():
+		image_idx = 0
+	set_surface_material(0, material_one)
+	
