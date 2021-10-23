@@ -2,18 +2,18 @@ extends Node
 
 
 var  is_action_pressed = false
-signal key_signal(key)
+signal key_signal(key, pressed, shift)
 
 func check_key(event, key, sig):
 	if event.is_action_pressed(key):
 		if is_action_pressed == false:
 			#print("Key " + sig + " pressed")
-			emit_signal("key_signal", sig + "_pressed")
+			emit_signal("key_signal", sig, true, false)
 			is_action_pressed = true
 	if event.is_action_released(key):
 		if is_action_pressed == true:
 			#print("Key " + sig + " released")
-			emit_signal("key_signal", sig + "_released")
+			emit_signal("key_signal", sig, false, false)
 			is_action_pressed = false
 
 func _input(event):
