@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://blender_scene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://fence.tscn" type="PackedScene" id=2]
+[ext_resource path="res://inputs.gd" type="Script" id=3]
 
 [node name="RootNode" type="Node"]
 
 [node name="Level_1" type="Node" parent="."]
+script = ExtResource( 3 )
 
 [node name="Camera2" type="Camera" parent="Level_1"]
 transform = Transform( 1, 0, 0, 0, 0.998298, 0.0583136, 0, -0.0583136, 0.998298, 0.135379, 2.06517, 2.10178 )
