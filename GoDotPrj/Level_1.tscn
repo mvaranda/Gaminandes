@@ -10,18 +10,11 @@
 [node name="Level_1" type="Node" parent="."]
 script = ExtResource( 3 )
 
-[node name="Camera2" type="Camera" parent="Level_1"]
-transform = Transform( 1, 0, 0, 0, 0.998298, 0.0583136, 0, -0.0583136, 0.998298, 0.135379, 2.06517, 2.10178 )
-fov = 62.6655
-far = 30.0
-
 [node name="blender_scene" parent="Level_1" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.987151, -0.0782197, -0.505524 )
 
 [node name="fence" parent="Level_1" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0881457, 0 )
-
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="Level_1"]
 
 [node name="Label" type="Label" parent="Level_1"]
 margin_right = 40.0

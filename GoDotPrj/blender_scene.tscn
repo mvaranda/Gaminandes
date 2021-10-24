@@ -18,3 +18,8 @@ material/0 = ExtResource( 1 )
 transform = Transform( 1.7112, 0, 0, 0, 1.7112, 0, 0, 0, 1.7112, -2.81238, -0.0654689, -0.893841 )
 material/0 = ExtResource( 2 )
 script = ExtResource( 4 )
+
+[node name="Camera" type="Camera" parent="lama" index="0"]
+transform = Transform( 0.584385, 0, 0, 0, 0.577155, 0.0916396, 0, -0.0916396, 0.577155, 0.651, 1.15429, 1.61213 )
+fov = 62.0
+far = 279.7
