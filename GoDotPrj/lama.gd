@@ -3,7 +3,7 @@ extends MeshInstance
 const SPRITES_FPS = 30.0
 var acc_delta = 0.0
 
-const NORMAL_SPEED = 0.5
+const NORMAL_SPEED = 0.3
 const MOV_NONE = 0
 const MOV_FWD  = 1
 const MOV_BACK = 2
@@ -28,6 +28,7 @@ var walk_images = []
 var image_idx = 0
 
 onready var mesh_i = get_node("MeshInstance")
+onready var mountains_i = get_node("../mountais")
 
 # Get the material in slot 0
 onready var material_one = get_surface_material(0)
@@ -96,8 +97,13 @@ func move_back(delta, imgs):
 func _process(delta):
 	var localTranslate = Vector3(NORMAL_SPEED * delta,0,0)
 	if move == MOV_FWD:
-		translate(get_transform().basis.xform(localTranslate))
-		move_fwd(delta, walk_images)
+		translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
+		move_fwd(delta, walk_images) # animate sprite fwd
+		
+		# move mountais by code as parenting ii to lama gets texture problem (random gray lines)
+		#mountains_i.translate(mountains_i.get_transform().basis.xform(localTranslate))
+		#mountains_i.translate(get_transform().basis.xform(localTranslate))
+		
 	if move == MOV_BACK:
 		translate(get_transform().basis.xform(-localTranslate))
 		move_back(delta, walk_images)
