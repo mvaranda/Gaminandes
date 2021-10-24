@@ -1,8 +1,6 @@
 extends MeshInstance
 
 const SPRITES_FPS = 30.0
-const SPRITE_TM = (1 / SPRITES_FPS)
-var slow_flag = false
 var acc_delta = 0.0
 
 const NORMAL_SPEED = 0.5
@@ -26,7 +24,7 @@ const WALK_FINAL_IMG = 477
 const WALK_NUM_IMGS = (WALK_FINAL_IMG - WALK_START_IMG)
 const WALK_FILENAME_PREFIX = "res://sprites/walk1/walk1_0"
 const WALK_FILENAME_EXTENSION = ".png"
-var images = []
+var walk_images = []
 var image_idx = 0
 
 onready var mesh_i = get_node("MeshInstance")
@@ -39,7 +37,7 @@ func load_images():
 	for n in range(WALK_START_IMG, WALK_FINAL_IMG + 1):
 		name = WALK_FILENAME_PREFIX + String(n) + WALK_FILENAME_EXTENSION
 		print(name)
-		images.append(load(name))
+		walk_images.append(load(name))
 
 func process_key(val, pressed, shift):
 	print("process_key: got " + val)
@@ -68,7 +66,7 @@ func _ready():
 
 func get_next_frame_fwd_idx(delta, num_frames):
 	acc_delta += delta
-	var nframes = acc_delta * SPRITES_FPS #/ SPRITE_TM
+	var nframes = acc_delta * SPRITES_FPS
 	var idx = 0
 	idx = int(current_frame + nframes)
 	if idx >= num_frames:
@@ -77,7 +75,7 @@ func get_next_frame_fwd_idx(delta, num_frames):
 	
 func get_next_frame_back_idx(delta, num_frames):
 	acc_delta += delta
-	var nframes = acc_delta / SPRITE_TM
+	var nframes = acc_delta  * SPRITES_FPS
 	var idx = 0
 	idx = int(current_frame + nframes)
 	if idx >= num_frames:
@@ -85,35 +83,23 @@ func get_next_frame_back_idx(delta, num_frames):
 	return num_frames - idx
 	
 var current_frame = 0
-func move_fwd(delta):
+func move_fwd(delta, imgs):
 	var idx = get_next_frame_fwd_idx(delta, WALK_NUM_IMGS)
-#	image_idx += 1
-#	if image_idx >= images.size():
-#		image_idx = 0
-	material_one.albedo_texture = images[idx]
+	material_one.albedo_texture = imgs[idx]
 	set_surface_material(0, material_one)
 	
-func move_back(delta):
+func move_back(delta, imgs):
 	var idx = get_next_frame_back_idx(delta, WALK_NUM_IMGS)
-#	image_idx -= 1
-#	if image_idx < 0:
-#		image_idx = images.size() - 1;
-	material_one.albedo_texture = images[idx]
+	material_one.albedo_texture = imgs[idx]
 	set_surface_material(0, material_one)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var localTranslate = Vector3(NORMAL_SPEED * delta,0,0)
-	#translate(get_transform().basis.xform(localTranslate))
 	if move == MOV_FWD:
-		#position.x += NORMAL_SPEED * delta;
-		#print("translate fwd")
 		translate(get_transform().basis.xform(localTranslate))
-		move_fwd(delta)
+		move_fwd(delta, walk_images)
 	if move == MOV_BACK:
-		#position.x -= NORMAL_SPEED * delta;
-		#print("translate back")
 		translate(get_transform().basis.xform(-localTranslate))
-		move_back(delta)
+		move_back(delta, walk_images)
 	
 	
