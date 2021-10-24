@@ -67,6 +67,19 @@ func _ready():
 	print("image:" + image.to_string())
 	load_images()
 
+func move_fwd(delta):
+	material_one.albedo_texture = images[image_idx]
+	image_idx += 1
+	if image_idx >= images.size():
+		image_idx = 0
+	set_surface_material(0, material_one)
+	
+func move_back(delta):
+	material_one.albedo_texture = images[image_idx]
+	image_idx -= 1
+	if image_idx < 0:
+		image_idx = images.size() - 1;
+	set_surface_material(0, material_one)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -76,14 +89,11 @@ func _process(delta):
 		#position.x += NORMAL_SPEED * delta;
 		print("translate fwd")
 		translate(get_transform().basis.xform(localTranslate))
+		move_fwd(delta)
 	if move == MOV_BACK:
 		#position.x -= NORMAL_SPEED * delta;
 		print("translate back")
 		translate(get_transform().basis.xform(-localTranslate))
+		move_back(delta)
 	
-	material_one.albedo_texture = images[image_idx]
-	image_idx += 1
-	if image_idx >= images.size():
-		image_idx = 0
-	set_surface_material(0, material_one)
 	
