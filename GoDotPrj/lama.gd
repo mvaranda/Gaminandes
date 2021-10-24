@@ -60,7 +60,7 @@ func process_key(val, pressed, shift):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var n = get_node("/root/RootNode/Level_1")
+	var n = get_node("/root/RootNode/Levels")
 	print(n)
 	n.connect("key_signal", self, "process_key");
 	load_images()
@@ -109,3 +109,33 @@ func _process(delta):
 		move_back(delta, walk_images)
 	
 	
+
+
+func _on_Area_area_entered(area):
+	print("Enter Fence")
+	pass # Replace with function body.
+
+
+func _on_Area_area_exited(area):
+	print("leave Fence")
+	pass # Replace with function body.
+
+
+func _on_Area_body_entered(body):
+	print("Enter Fence")
+	pass # Replace with function body.
+
+
+func _on_Area_body_exited(body):
+	print("Leave Fence")
+	pass # Replace with function body.
+
+
+func _on_Area_body_shape_entered(body_id, body, body_shape, local_shape):
+	print("Caralho")
+	pass # Replace with function body.
+
+
+func _on_Area_body_shape_exited(body_id, body, body_shape, local_shape):
+	print("Buceta")
+	pass # Replace with function body.
