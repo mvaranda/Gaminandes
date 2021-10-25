@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://fence.tscn" type="PackedScene" id=1]
 [ext_resource path="res://inputs.gd" type="Script" id=2]
 [ext_resource path="res://Label_FPS.gd" type="Script" id=3]
 [ext_resource path="res://level1.tscn" type="PackedScene" id=4]
@@ -11,9 +10,6 @@
 script = ExtResource( 2 )
 
 [node name="level1" parent="Levels" instance=ExtResource( 4 )]
-
-[node name="fence" parent="Levels" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0881457, 0 )
 
 [node name="Label" type="Label" parent="Levels"]
 margin_right = 40.0
