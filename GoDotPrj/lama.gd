@@ -28,6 +28,16 @@ const WALK_FILENAME_PREFIX = "res://sprites/walk1/walk1_0"
 const WALK_FILENAME_EXTENSION = ".png"
 var walk_images = []
 
+const JUMP_FPS = 20.0
+const JUMP_FILENAME_PREFIX = "res://sprites/good_jump/good_jump_0"
+const JUMP_FILENAME_EXTENSION = ".png"
+const JUMP_START_IMG =    429 # 423
+const JUMP_FINAL_IMG     = 461 #452
+const JUMP_NUM_IMGS = (JUMP_FINAL_IMG - JUMP_START_IMG)
+const JUMP_TAKEOFF_IDX = 6
+const JUMP_LANDING_IDX = 18
+var jump_images = []
+
 const SNAP_FPS = 10.0
 const SNAP_START_IMG = 1
 const SNAP_FINAL_IMG = 7
@@ -45,6 +55,7 @@ onready var material_one = get_surface_material(0)
 	
 func load_images():
 	var name
+	var img
 	for n in range(WALK_START_IMG, WALK_FINAL_IMG + 1):
 		name = WALK_FILENAME_PREFIX + String(n) + WALK_FILENAME_EXTENSION
 		print(name)
@@ -55,6 +66,15 @@ func load_images():
 		print(name)
 		snap_images.append(load(name))
 	snap_images.append(walk_images[0]) # final image = first walk
+	
+	for n in range(JUMP_START_IMG, JUMP_FINAL_IMG + 1):
+		print("n = " + str(n))
+		name = JUMP_FILENAME_PREFIX + String(n) + JUMP_FILENAME_EXTENSION
+		print(name)
+		img = load(name)
+		if img == null:
+			print("could not load image " + name)
+		jump_images.append(load(name))
 
 func process_key(val, pressed, shift):
 	#print("process_key: got " + val)
@@ -68,7 +88,9 @@ func process_key(val, pressed, shift):
 		elif val ==  "key_left":
 			move = MOV_BACK
 		elif val ==  "key_up":
+			acc_delta = 0.0
 			move = MOV_JUMP
+			state = ST_JUMPING
 		elif val ==  "key_down":
 			acc_delta = 0.0
 			move = MOV_DOWN
@@ -134,7 +156,11 @@ func _process(delta):
 		if move_fwd(delta, snap_images, SNAP_FPS, false) >= (SNAP_NUM_IMGS + 1):
 			state = ST_FREE_MOVING
 			acc_delta = 0.0
-	
+
+	if state == ST_JUMPING:
+		if move_fwd(delta, jump_images, JUMP_FPS, false) >= (JUMP_NUM_IMGS + 1):
+			state = ST_FREE_MOVING
+			acc_delta = 0.0	
 
 
 func _on_Area_area_entered(area):
