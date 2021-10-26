@@ -23,7 +23,7 @@ var state = ST_FREE_MOVING
 const WALK_FPS = 30.0
 const WALK_START_IMG = 462
 const WALK_FINAL_IMG = 477
-const WALK_NUM_IMGS = (WALK_FINAL_IMG - WALK_START_IMG)
+const WALK_NUM_IMGS = (WALK_FINAL_IMG - WALK_START_IMG) + 1
 const WALK_FILENAME_PREFIX = "res://sprites/walk1/walk1_0"
 const WALK_FILENAME_EXTENSION = ".png"
 var walk_images = []
@@ -32,8 +32,8 @@ const JUMP_FPS = 20.0
 const JUMP_FILENAME_PREFIX = "res://sprites/good_jump/good_jump_0"
 const JUMP_FILENAME_EXTENSION = ".png"
 const JUMP_START_IMG =    429 # 423
-const JUMP_FINAL_IMG     = 461 #452
-const JUMP_NUM_IMGS = (JUMP_FINAL_IMG - JUMP_START_IMG)
+const JUMP_FINAL_IMG     = 453 # 461 #452
+const JUMP_NUM_IMGS = (JUMP_FINAL_IMG - JUMP_START_IMG) + 1
 const JUMP_TAKEOFF_IDX = 6
 const JUMP_LANDING_IDX = 18
 var jump_images = []
@@ -41,7 +41,7 @@ var jump_images = []
 const SNAP_FPS = 10.0
 const SNAP_START_IMG = 1
 const SNAP_FINAL_IMG = 7
-const SNAP_NUM_IMGS = (SNAP_FINAL_IMG - SNAP_START_IMG)
+const SNAP_NUM_IMGS = (SNAP_FINAL_IMG - SNAP_START_IMG) + 1
 const SNAP_FILENAME_PREFIX = "res://sprites/snap/snap_000"
 const SNAP_FILENAME_EXTENSION = ".png"
 var snap_images = []
@@ -52,29 +52,28 @@ onready var mountains_i = get_node("../mountais")
 
 # Get the material in slot 0
 onready var material_one = get_surface_material(0)
-	
+
+func load_append_img(img_array, name):
+	var img = load(name)
+	if img == null:
+		print("could not load image " + name)
+	img_array.append(load(name))
+
 func load_images():
 	var name
 	var img
 	for n in range(WALK_START_IMG, WALK_FINAL_IMG + 1):
 		name = WALK_FILENAME_PREFIX + String(n) + WALK_FILENAME_EXTENSION
-		print(name)
-		walk_images.append(load(name))
+		load_append_img(walk_images, name)
 		
 	for n in range(SNAP_START_IMG, SNAP_FINAL_IMG + 1):
 		name = SNAP_FILENAME_PREFIX + String(n) + SNAP_FILENAME_EXTENSION
-		print(name)
-		snap_images.append(load(name))
+		load_append_img(snap_images, name)
 	snap_images.append(walk_images[0]) # final image = first walk
 	
 	for n in range(JUMP_START_IMG, JUMP_FINAL_IMG + 1):
-		print("n = " + str(n))
 		name = JUMP_FILENAME_PREFIX + String(n) + JUMP_FILENAME_EXTENSION
-		print(name)
-		img = load(name)
-		if img == null:
-			print("could not load image " + name)
-		jump_images.append(load(name))
+		load_append_img(jump_images, name)
 
 func process_key(val, pressed, shift):
 	#print("process_key: got " + val)
@@ -88,11 +87,11 @@ func process_key(val, pressed, shift):
 		elif val ==  "key_left":
 			move = MOV_BACK
 		elif val ==  "key_up":
-			acc_delta = 0.0
+			reset_frame_control()
 			move = MOV_JUMP
 			state = ST_JUMPING
 		elif val ==  "key_down":
-			acc_delta = 0.0
+			reset_frame_control()
 			move = MOV_DOWN
 			state = ST_SNAPING
 		else:
@@ -115,8 +114,13 @@ func get_next_frame_fwd_idx(delta, num_frames, fps, rollover):
 		else:
 			idx = num_frames - 1
 	return idx
-	
+
+func reset_frame_control():
+	current_frame = 0
+	acc_delta = 0.0
+
 func get_next_frame_back_idx(delta, num_frames):
+	num_frames = num_frames - 1
 	acc_delta += delta
 	var nframes = acc_delta  * SPRITES_FPS
 	var idx = 0
@@ -127,13 +131,13 @@ func get_next_frame_back_idx(delta, num_frames):
 	
 var current_frame = 0
 func move_fwd(delta, imgs, fps, rollover):
-	var idx = get_next_frame_fwd_idx(delta, WALK_NUM_IMGS, fps, rollover)
+	var idx = get_next_frame_fwd_idx(delta, imgs.size(), fps, rollover)
 	material_one.albedo_texture = imgs[idx]
 	set_surface_material(0, material_one)
 	return idx
 	
 func move_back(delta, imgs):
-	var idx = get_next_frame_back_idx(delta, WALK_NUM_IMGS)
+	var idx = get_next_frame_back_idx(delta, imgs.size())
 	material_one.albedo_texture = imgs[idx]
 	set_surface_material(0, material_one)
 
@@ -153,15 +157,14 @@ func _process(delta):
 			move_back(delta, walk_images)
 			
 	if state == ST_SNAPING:
-		if move_fwd(delta, snap_images, SNAP_FPS, false) >= (SNAP_NUM_IMGS + 1):
+		if move_fwd(delta, snap_images, SNAP_FPS, false) >= SNAP_NUM_IMGS:
 			state = ST_FREE_MOVING
-			acc_delta = 0.0
+			reset_frame_control()
 
 	if state == ST_JUMPING:
-		if move_fwd(delta, jump_images, JUMP_FPS, false) >= (JUMP_NUM_IMGS + 1):
+		if move_fwd(delta, jump_images, JUMP_FPS, false) >= JUMP_NUM_IMGS - 1:
 			state = ST_FREE_MOVING
-			acc_delta = 0.0	
-
+			reset_frame_control()
 
 func _on_Area_area_entered(area):
 	print("Enter Fence 1")
