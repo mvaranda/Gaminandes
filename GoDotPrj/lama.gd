@@ -3,7 +3,6 @@ extends MeshInstance
 const SPRITES_FPS = 30.0
 var acc_delta = 0.0
 
-const NORMAL_SPEED = 0.3
 const MOV_NONE = 0
 const MOV_FWD  = 1
 const MOV_BACK = 2
@@ -17,9 +16,11 @@ const ST_JUMPING      = 1
 const ST_PULLING_BACK = 2
 const ST_SHOCKING     = 3
 const ST_SNAPING      = 4
+const ST_WAIT_STAND_UP = 5
 
 var state = ST_FREE_MOVING
 
+const NORMAL_FWD_SPEED = 0.3
 const WALK_FPS = 30.0
 const WALK_START_IMG = 462
 const WALK_FINAL_IMG = 477
@@ -28,6 +29,7 @@ const WALK_FILENAME_PREFIX = "res://sprites/walk1/walk1_0"
 const WALK_FILENAME_EXTENSION = ".png"
 var walk_images = []
 
+const JUMP_FWD_SPEED = 2.0
 const JUMP_FPS = 20.0
 const JUMP_FILENAME_PREFIX = "res://sprites/good_jump/good_jump_0"
 const JUMP_FILENAME_EXTENSION = ".png"
@@ -46,6 +48,20 @@ const SNAP_FILENAME_PREFIX = "res://sprites/snap/snap_000"
 const SNAP_FILENAME_EXTENSION = ".png"
 var snap_images = []
 
+const FALL_BACK_SPEED = 2.0
+const FALL_FPS = 16.0
+const EFALL_FILENAME_PREFIX          = "res://sprites/efall/fall_0"
+const FALL_FILENAME_PREFIX           = "res://sprites/fall/fall_0"
+const FALL_FILENAME_EXTENSION = ".png"
+const FALL_START_IMG          = 759
+const FALL_FINAL_IMG          = 769
+const FALL_NUM_IMGS = (FALL_FINAL_IMG - FALL_START_IMG) + 1
+const FALL_STOP_MOVING_IDX   =  6
+var fall_images = []
+var efall_images = []
+
+var timer_count = 0.0
+const WAIT_TM_STAND_UP = 1.0 #ST_WAIT_STAND_UP
 
 onready var mesh_i = get_node("MeshInstance")
 onready var mountains_i = get_node("../mountais")
@@ -75,6 +91,14 @@ func load_images():
 		name = JUMP_FILENAME_PREFIX + String(n) + JUMP_FILENAME_EXTENSION
 		load_append_img(jump_images, name)
 
+	for n in range(FALL_START_IMG, FALL_FINAL_IMG + 1):
+		name = FALL_FILENAME_PREFIX + String(n) + FALL_FILENAME_EXTENSION
+		load_append_img(fall_images, name)
+
+	for n in range(FALL_START_IMG, FALL_FINAL_IMG + 1):
+		name = EFALL_FILENAME_PREFIX + String(n) + FALL_FILENAME_EXTENSION
+		load_append_img(efall_images, name)
+
 func process_key(val, pressed, shift):
 	#print("process_key: got " + val)
 	if pressed == false:
@@ -94,6 +118,14 @@ func process_key(val, pressed, shift):
 			reset_frame_control()
 			move = MOV_DOWN
 			state = ST_SNAPING
+		elif val ==  "key_shock":
+			reset_frame_control()
+			#move = MOV_DOWN
+			state = ST_SHOCKING
+		elif val ==  "key_collide":
+			reset_frame_control()
+			#move = MOV_DOWN
+			state = ST_PULLING_BACK
 		else:
 			print("unhanlded key")
 
@@ -143,7 +175,7 @@ func move_back(delta, imgs):
 
 func _process(delta):
 	if state == ST_FREE_MOVING:
-		var localTranslate = Vector3(NORMAL_SPEED * delta,0,0)
+		var localTranslate = Vector3(NORMAL_FWD_SPEED * delta,0,0)
 		if move == MOV_FWD:
 			translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
 			move_fwd(delta, walk_images, WALK_FPS, true) # animate sprite fwd
@@ -162,9 +194,42 @@ func _process(delta):
 			reset_frame_control()
 
 	if state == ST_JUMPING:
-		if move_fwd(delta, jump_images, JUMP_FPS, false) >= JUMP_NUM_IMGS - 1:
+		var idx = move_fwd(delta, jump_images, JUMP_FPS, false)
+		if idx >= JUMP_NUM_IMGS - 1:
 			state = ST_FREE_MOVING
 			reset_frame_control()
+		elif idx < JUMP_NUM_IMGS - 10:
+			var localTranslate = Vector3(JUMP_FWD_SPEED * delta,0,0)
+			translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
+			
+	if state == ST_SHOCKING:
+		var idx = move_fwd(delta, efall_images, FALL_FPS, false)
+		if idx >= FALL_NUM_IMGS - 1:
+			state = ST_WAIT_STAND_UP
+			timer_count = 0.0
+			reset_frame_control()
+		elif idx < FALL_STOP_MOVING_IDX:
+			var localTranslate = Vector3(-JUMP_FWD_SPEED * delta,0,0)
+			translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
+
+	if state == ST_PULLING_BACK:
+		var idx = move_fwd(delta, fall_images, FALL_FPS, false)
+		if idx >= FALL_NUM_IMGS - 1:
+			state = ST_WAIT_STAND_UP
+			timer_count = 0.0
+			reset_frame_control()
+		elif idx < FALL_STOP_MOVING_IDX:
+			var localTranslate = Vector3(-JUMP_FWD_SPEED * delta,0,0)
+			translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
+			
+	if state == 	ST_WAIT_STAND_UP:
+		timer_count += delta
+		if timer_count >= WAIT_TM_STAND_UP:
+			material_one.albedo_texture = walk_images[0]
+			set_surface_material(0, material_one)
+			state = ST_FREE_MOVING
+			reset_frame_control()
+			
 
 func _on_Area_area_entered(area):
 	print("Enter Fence 1")
