@@ -26,12 +26,12 @@ material/0 = ExtResource( 2 )
 script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="lama" index="0"]
-transform = Transform( 0.584386, 0, 0, 0, 0.577144, 0.0917122, 0, -0.0917122, 0.577144, 0.629282, 1.17586, 1.46438 )
+transform = Transform( 0.584386, 0, 0, 0, 0.577144, 0.0917122, 0, -0.0917122, 0.577144, 0.629, 1.342, 1.565 )
 fov = 62.0
 far = 30.0
 
 [node name="mountains" parent="lama" index="1" instance=ExtResource( 4 )]
-transform = Transform( 1.12385, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 1.12385, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.437423, 0 )
 
 [node name="mountains_closer" parent="lama" index="2" instance=ExtResource( 3 )]
 transform = Transform( 2.11482, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.02508, 0 )
