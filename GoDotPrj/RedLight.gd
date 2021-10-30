@@ -1,8 +1,11 @@
 extends MeshInstance
+
 const centerMaterials : Array = [
 	preload("res://light_off.material"),
 	preload("res://light_on.material"),
 	 ]
+
+signal fence_signal(is_enter, name, is_light_on)
 
 const LIGHT_OFF_IDX = 0
 const LIGHT_ON_IDX = 1
@@ -44,3 +47,16 @@ func _process(delta):
 			changeMaterial(LIGHT_OFF_IDX)
 			state = ST_SHOWING_LIGHT_OFF
 	pass
+
+
+func _on_fenceArea_body_entered(body):
+	print("Enter Fence2 " + get_parent().name)
+	emit_signal("fence_signal", true, get_parent().name, state)
+	pass # Replace with function body.
+
+
+func _on_fenceArea_body_exited(body):
+	#print("Exit Fence2 " + body.get_parent().name)
+	emit_signal("fence_signal", false, get_parent().name, state)
+	pass # Replace with function body.
+

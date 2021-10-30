@@ -55,15 +55,16 @@ transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, -35.732, 0, 0 )
 transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, 35.724, 0, 0 )
 visible = false
 
-[node name="fenceArea" type="Area" parent="." index="4"]
+[node name="fenceBlock" type="Area" parent="." index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.01334, 0, -0.828312 )
 script = ExtResource( 7 )
 
-[node name="fenceCollisionShape" type="CollisionShape" parent="fenceArea" index="0"]
+[node name="fenceCollisionShape" type="CollisionShape" parent="fenceBlock" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0595918, 0.764939, 0 )
+visible = false
 shape = SubResource( 2 )
 
-[node name="fence" parent="fenceArea" index="1" instance=ExtResource( 8 )]
+[node name="fence" parent="fenceBlock" index="1" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.088, 0.617407 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="." index="5"]
@@ -72,5 +73,5 @@ light_energy = 0.52
 light_specular = 0.37
 shadow_enabled = true
 
-[connection signal="body_entered" from="fenceArea" to="lama" method="_on_Area_body_entered"]
-[connection signal="body_exited" from="fenceArea" to="lama" method="_on_Area_body_exited"]
+[connection signal="body_entered" from="fenceBlock" to="lama" method="_on_Area_body_entered"]
+[connection signal="body_exited" from="fenceBlock" to="lama" method="_on_Area_body_exited"]
