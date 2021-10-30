@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://fence_light.glb" type="PackedScene" id=1]
 [ext_resource path="res://Rust_red.material" type="Material" id=2]
-[ext_resource path="res://light_off.material" type="Material" id=3]
+[ext_resource path="res://RedLight.gd" type="Script" id=3]
+[ext_resource path="res://light_off.material" type="Material" id=4]
 
 [node name="fence" instance=ExtResource( 1 )]
 
@@ -10,4 +11,5 @@
 material/6 = ExtResource( 2 )
 
 [node name="red_light" parent="." index="3"]
-material/0 = ExtResource( 3 )
+material/0 = ExtResource( 4 )
+script = ExtResource( 3 )
