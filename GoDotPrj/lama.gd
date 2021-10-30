@@ -6,7 +6,7 @@ const NODE_PATH_RED_LIGHT2 = "/root/RootNode/Levels/level1/fence2/red_light"
 
 const FENCE_NODE_PATHS_PREFIX = "/root/RootNode/Levels/level1/fence_"
 const RED_LIGHT_NODE_NAME = "/red_light"
-const NUM_FENCES = 2
+const NUM_FENCES = 7
 
 
 const SPRITES_FPS = 30.0
