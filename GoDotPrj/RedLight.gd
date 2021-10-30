@@ -39,7 +39,7 @@ func _ready():
 
 func _process(delta):
 	if timer_update_and_check(delta) == true:
-		timer_set(0.5)
+		timer_set(2)
 		if state == ST_SHOWING_LIGHT_OFF:
 			changeMaterial(LIGHT_ON_IDX)
 			state = ST_SHOWING_LIGHT_ON
@@ -50,13 +50,15 @@ func _process(delta):
 
 
 func _on_fenceArea_body_entered(body):
-	print("Enter Fence2 " + get_parent().name)
-	emit_signal("fence_signal", true, get_parent().name, state)
-	pass # Replace with function body.
+	var light_on = false
+	if state == ST_SHOWING_LIGHT_ON:
+		light_on = true
+	emit_signal("fence_signal", true, get_parent().name, light_on)
 
 
 func _on_fenceArea_body_exited(body):
-	#print("Exit Fence2 " + body.get_parent().name)
-	emit_signal("fence_signal", false, get_parent().name, state)
-	pass # Replace with function body.
+	var light_on = false
+	if state == ST_SHOWING_LIGHT_ON:
+		light_on = true
+	emit_signal("fence_signal", false, get_parent().name, light_on)
 

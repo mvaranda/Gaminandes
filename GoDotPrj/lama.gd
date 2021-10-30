@@ -1,7 +1,7 @@
 extends MeshInstance
 
 const NODE_PATH_LEVELS = "/root/RootNode/Levels"
-const NODE_PATH_RED_LIGHT = "/root/RootNode/Levels/level1/fenceBlock/fence/red_light"
+const NODE_PATH_RED_LIGHT = "/root/RootNode/Levels/level1/fence/red_light"
 
 const SPRITES_FPS = 30.0
 var acc_delta = 0.0
@@ -133,11 +133,11 @@ func process_key(val, pressed, shift):
 			print("unhanlded key")
 
 func process_fence_signal(is_enter, name, is_light_on):
-	print("fence signal from " + name)
-	if state == 0:
-		print("light off")
-	else:
+	print("fence signal from: " + name)
+	if is_light_on == true:
 		print("light on")
+	else:
+		print("light off")
 	if is_enter == true:
 		print("Enter")
 	else:
