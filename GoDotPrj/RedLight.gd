@@ -50,6 +50,7 @@ func _process(delta):
 
 
 func _on_fenceArea_body_entered(body):
+	print("*****************")
 	var light_on = false
 	if state == ST_SHOWING_LIGHT_ON:
 		light_on = true

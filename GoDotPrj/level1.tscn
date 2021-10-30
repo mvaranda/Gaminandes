@@ -57,5 +57,8 @@ light_energy = 0.52
 light_specular = 0.37
 shadow_enabled = true
 
-[node name="fence" parent="." index="5" instance=ExtResource( 8 )]
+[node name="fence_0" parent="." index="5" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.01334, -0.088, -0.210905 )
+
+[node name="fence_1" parent="." index="6" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.088, -0.211 )
