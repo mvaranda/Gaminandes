@@ -1,8 +1,8 @@
 extends MeshInstance
 
 const NODE_PATH_LEVELS = "/root/RootNode/Levels"
-const NODE_PATH_RED_LIGHT = "/root/RootNode/Levels/level1/fence/red_light"
-const NODE_PATH_RED_LIGHT2 = "/root/RootNode/Levels/level1/fence2/red_light"
+
+signal lama_position_signal(pos)
 
 const FENCE_NODE_PATHS_PREFIX = "/root/RootNode/Levels/level1/fence_"
 const RED_LIGHT_NODE_NAME = "/red_light"
@@ -29,7 +29,7 @@ const ST_WAIT_STAND_UP = 5
 
 var state = ST_FREE_MOVING
 
-const NORMAL_FWD_SPEED = 0.3
+const NORMAL_FWD_SPEED = 0.8
 const WALK_FPS = 30.0
 const WALK_START_IMG = 462
 const WALK_FINAL_IMG = 477
@@ -38,7 +38,7 @@ const WALK_FILENAME_PREFIX = "res://sprites/walk1/walk1_0"
 const WALK_FILENAME_EXTENSION = ".png"
 var walk_images = []
 
-const JUMP_FWD_SPEED = 2.0
+const JUMP_FWD_SPEED = 5.0
 const JUMP_FPS = 20.0
 const JUMP_FILENAME_PREFIX = "res://sprites/good_jump/good_jump_0"
 const JUMP_FILENAME_EXTENSION = ".png"
@@ -201,17 +201,14 @@ func move_back(delta, imgs):
 
 func _process(delta):
 	if state == ST_FREE_MOVING:
-		var localTranslate = Vector3(NORMAL_FWD_SPEED * delta,0,0)
 		if move == MOV_FWD:
-			translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
+			transform.origin.x += NORMAL_FWD_SPEED * delta
+			emit_signal("lama_position_signal", transform.origin.x)
 			move_fwd(delta, walk_images, WALK_FPS, true) # animate sprite fwd
 			
-			# move mountais by code as parenting ii to lama gets texture problem (random gray lines)
-			#mountains_i.translate(mountains_i.get_transform().basis.xform(localTranslate))
-			#mountains_i.translate(get_transform().basis.xform(localTranslate))
-			
 		if move == MOV_BACK:
-			translate(get_transform().basis.xform(-localTranslate))
+			transform.origin.x -= NORMAL_FWD_SPEED * delta
+			emit_signal("lama_position_signal", transform.origin.x)
 			move_back(delta, walk_images)
 			
 	if state == ST_SNAPING:
@@ -225,8 +222,8 @@ func _process(delta):
 			state = ST_FREE_MOVING
 			reset_frame_control()
 		elif idx < JUMP_NUM_IMGS - 10:
-			var localTranslate = Vector3(JUMP_FWD_SPEED * delta,0,0)
-			translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
+			transform.origin.x += JUMP_FWD_SPEED * delta
+			emit_signal("lama_position_signal", transform.origin.x)
 			
 	if state == ST_SHOCKING:
 		var idx = move_fwd(delta, efall_images, FALL_FPS, false)
@@ -235,8 +232,9 @@ func _process(delta):
 			timer_count = 0.0
 			reset_frame_control()
 		elif idx < FALL_STOP_MOVING_IDX:
-			var localTranslate = Vector3(-JUMP_FWD_SPEED * delta,0,0)
-			translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
+			transform.origin.x -= JUMP_FWD_SPEED * delta
+			emit_signal("lama_position_signal", transform.origin.x)
+			
 
 	if state == ST_PULLING_BACK:
 		var idx = move_fwd(delta, fall_images, FALL_FPS, false)
@@ -244,9 +242,10 @@ func _process(delta):
 			state = ST_WAIT_STAND_UP
 			timer_count = 0.0
 			reset_frame_control()
+			
 		elif idx < FALL_STOP_MOVING_IDX:
-			var localTranslate = Vector3(-JUMP_FWD_SPEED * delta,0,0)
-			translate(get_transform().basis.xform(localTranslate)) # move mesh fwd
+			transform.origin.x -= JUMP_FWD_SPEED * delta
+			emit_signal("lama_position_signal", transform.origin.x)
 			
 	if state == 	ST_WAIT_STAND_UP:
 		timer_count += delta

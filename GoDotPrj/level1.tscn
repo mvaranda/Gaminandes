@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://lama.gd" type="Script" id=1]
 [ext_resource path="res://lama.material" type="Material" id=2]
@@ -6,14 +6,16 @@
 [ext_resource path="res://mountains.tscn" type="PackedScene" id=4]
 [ext_resource path="res://meshes/lama.glb" type="PackedScene" id=5]
 [ext_resource path="res://terrain.tscn" type="PackedScene" id=6]
+[ext_resource path="res://mountains_close.gd" type="Script" id=7]
 [ext_resource path="res://fence.tscn" type="PackedScene" id=8]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.343831, 0.459965, 0.423207 )
 
 [node name="level1" instance=ExtResource( 5 )]
+script = ExtResource( 7 )
 
-[node name="terrain" parent="." index="0" instance=ExtResource( 6 )]
+[node name="terrain_0" parent="." index="0" instance=ExtResource( 6 )]
 transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="lama" parent="." index="1"]
@@ -29,51 +31,50 @@ far = 30.0
 [node name="mountains" parent="lama" index="1" instance=ExtResource( 4 )]
 transform = Transform( 1.12385, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.437423, 0 )
 
-[node name="mountains_closer" parent="lama" index="2" instance=ExtResource( 3 )]
-transform = Transform( 2.11482, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.02508, 0 )
-
-[node name="mountains_closer_left" parent="lama" index="3" instance=ExtResource( 3 )]
-transform = Transform( 2.11482, 0, 0, 0, 1, 0, 0, 0, 1, -33.3144, -1.02508, 0 )
-
-[node name="mountains_closer_right" parent="lama" index="4" instance=ExtResource( 3 )]
-transform = Transform( 2.11482, 0, 0, 0, 1, 0, 0, 0, 1, 33.4363, -1.02508, 0 )
-
-[node name="lamaKinematicBody" type="KinematicBody" parent="lama" index="5"]
+[node name="lamaKinematicBody" type="KinematicBody" parent="lama" index="2"]
 
 [node name="CollisionShape" type="CollisionShape" parent="lama/lamaKinematicBody" index="0"]
 transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.127914, 0.579139, 0 )
 shape = SubResource( 1 )
 
-[node name="terrain_left" parent="." index="2" instance=ExtResource( 6 )]
-transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, -35.732, 0, 0 )
+[node name="mountains_closer_0" parent="." index="2" instance=ExtResource( 3 )]
+transform = Transform( 3.05202, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, -1.88329, -1.47935, -0.893841 )
 
-[node name="terrain_right" parent="." index="3" instance=ExtResource( 6 )]
+[node name="mountains_closer_2" parent="." index="3" instance=ExtResource( 3 )]
+transform = Transform( 3.05202, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, 93.3653, -1.47924, -0.893841 )
+
+[node name="mountains_closer_1" parent="." index="4" instance=ExtResource( 3 )]
+transform = Transform( 3.05202, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, 46.3706, -1.47935, -0.893841 )
+
+[node name="terrain_2" parent="." index="5" instance=ExtResource( 6 )]
+transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, 71.464, 0, 0 )
+
+[node name="terrain_1" parent="." index="6" instance=ExtResource( 6 )]
 transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, 35.724, 0, 0 )
-visible = false
 
-[node name="DirectionalLight" type="DirectionalLight" parent="." index="4"]
+[node name="DirectionalLight" type="DirectionalLight" parent="." index="7"]
 transform = Transform( 0.970855, 0, -0.239669, 0.132481, 0.833336, 0.536656, 0.199725, -0.552766, 0.809049, 1.78167, 3.64248, 3.70862 )
 light_energy = 0.52
 light_specular = 0.37
 shadow_enabled = true
 
-[node name="fence_0" parent="." index="5" instance=ExtResource( 8 )]
+[node name="fence_0" parent="." index="8" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.01334, -0.088, -0.210905 )
 
-[node name="fence_1" parent="." index="6" instance=ExtResource( 8 )]
+[node name="fence_1" parent="." index="9" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -0.088, -0.211 )
 
-[node name="fence_2" parent="." index="7" instance=ExtResource( 8 )]
+[node name="fence_2" parent="." index="10" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, -0.088, -0.211 )
 
-[node name="fence_3" parent="." index="8" instance=ExtResource( 8 )]
+[node name="fence_3" parent="." index="11" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22, -0.088, -0.211 )
 
-[node name="fence_4" parent="." index="9" instance=ExtResource( 8 )]
+[node name="fence_4" parent="." index="12" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, -0.088, -0.211 )
 
-[node name="fence_5" parent="." index="10" instance=ExtResource( 8 )]
+[node name="fence_5" parent="." index="13" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33, -0.088, -0.211 )
 
-[node name="fence_6" parent="." index="11" instance=ExtResource( 8 )]
+[node name="fence_6" parent="." index="14" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 39, -0.088, -0.211 )
