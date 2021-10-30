@@ -8,13 +8,6 @@ const FENCE_NODE_PATHS_PREFIX = "/root/RootNode/Levels/level1/fence_"
 const RED_LIGHT_NODE_NAME = "/red_light"
 const NUM_FENCES = 2
 
-#const FENCE_NODE_PATHS : Array = [
-#	"/root/RootNode/Levels/level1/fence_0/red_light",
-#	"/root/RootNode/Levels/level1/fence_1/red_light",
-#	 ]
-#for i in range(NUM_FENCES + 1)
-#	FENCE_NODE_PATHS_PREFIX + str(i) + RED_LIGHT_NODE_NAME
-
 
 const SPRITES_FPS = 30.0
 var acc_delta = 0.0
@@ -160,9 +153,6 @@ func process_fence_signal(is_enter, name, is_light_on):
 func _ready():
 	var n = get_node(NODE_PATH_LEVELS)
 	n.connect("key_signal", self, "process_key");
-#	for p in FENCE_NODE_PATHS:
-#		n = get_node(p)
-#		n.connect("fence_signal", self, "process_fence_signal");
 		
 	for i in range(NUM_FENCES):
 		n = get_node(FENCE_NODE_PATHS_PREFIX + str(i) + RED_LIGHT_NODE_NAME)
