@@ -1,6 +1,6 @@
 extends Spatial
 
-var play_song = true
+var play_song = false
 onready var song_caminandes = $mainAudioStreamPlayer
 # Declare member variables here. Examples:
 # var a = 2
