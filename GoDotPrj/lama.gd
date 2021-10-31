@@ -160,7 +160,7 @@ func process_fence_signal(is_enter, name, is_light_on, from_left):
 				transform.origin.x += .1
 				emit_signal("lama_position_signal", transform.origin.x)
 		else:
-			if state == ST_JUMPING and was_a_good_jump_on_start == false:
+			if state == ST_JUMPING and (was_a_good_jump_on_start == false or is_light_on):
 				print(">>> fire shock 2 or pushback")
 				if is_light_on:
 					state = ST_SHOCKING
