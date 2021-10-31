@@ -138,16 +138,23 @@ func process_key(val, pressed, shift):
 		else:
 			print("unhanlded key")
 
-func process_fence_signal(is_enter, name, is_light_on):
-	print("fence signal from: " + name)
-	if is_light_on == true:
-		print("light on")
-	else:
-		print("light off")
+func process_fence_signal(is_enter, name, is_light_on, from_left):
+	var log_txt
+
 	if is_enter == true:
-		print("Enter")
+		log_txt = "Enter fence " + name
 	else:
-		print("Exit")
+		log_txt = "Exit fence " + name
+		
+	if is_light_on == true:
+		log_txt += ", light ON"
+	else:
+		log_txt += ", light OFF"
+
+	if from_left:
+		log_txt += ", from Left"
+	print(log_txt)
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

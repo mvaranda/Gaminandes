@@ -5,7 +5,7 @@ const centerMaterials : Array = [
 	preload("res://light_on.material"),
 	 ]
 
-signal fence_signal(is_enter, name, is_light_on)
+signal fence_signal(is_enter, name, is_light_on, from_left)
 
 const LIGHT_OFF_IDX = 0
 const LIGHT_ON_IDX = 1
@@ -50,16 +50,25 @@ func _process(delta):
 
 
 func _on_fenceArea_body_entered(body):
-	print("*****************")
+	var from_left = false
 	var light_on = false
+
+	if body.global_transform.origin.x < global_transform.origin.x:
+		from_left = true
+
 	if state == ST_SHOWING_LIGHT_ON:
 		light_on = true
-	emit_signal("fence_signal", true, get_parent().name, light_on)
+	emit_signal("fence_signal", true, get_parent().name, light_on, from_left)
 
 
 func _on_fenceArea_body_exited(body):
+	var from_left = false
 	var light_on = false
+	
 	if state == ST_SHOWING_LIGHT_ON:
 		light_on = true
-	emit_signal("fence_signal", false, get_parent().name, light_on)
+	if body.global_transform.origin.x < global_transform.origin.x:
+		from_left = true
+		
+	emit_signal("fence_signal", false, get_parent().name, light_on, from_left)
 
