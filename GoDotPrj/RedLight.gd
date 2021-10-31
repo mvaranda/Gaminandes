@@ -1,5 +1,7 @@
 extends MeshInstance
 
+var light_is_on = false
+
 const centerMaterials : Array = [
 	preload("res://light_off.material"),
 	preload("res://light_on.material"),
@@ -39,36 +41,39 @@ func _ready():
 
 func _process(delta):
 	if timer_update_and_check(delta) == true:
-		timer_set(.5)
+		timer_set(2)
 		if state == ST_SHOWING_LIGHT_OFF:
 			changeMaterial(LIGHT_ON_IDX)
 			state = ST_SHOWING_LIGHT_ON
+			light_is_on = true
 		else:
 			changeMaterial(LIGHT_OFF_IDX)
 			state = ST_SHOWING_LIGHT_OFF
+			light_is_on = false
 	pass
 
 
 func _on_fenceArea_body_entered(body):
 	var from_left = false
-	var light_on = false
+#	var light_on = false
 
 	if body.global_transform.origin.x < global_transform.origin.x:
 		from_left = true
 
-	if state == ST_SHOWING_LIGHT_ON:
-		light_on = true
-	emit_signal("fence_signal", true, get_parent().name, light_on, from_left)
+#	if state == ST_SHOWING_LIGHT_ON:
+#		light_on = true
+		
+	emit_signal("fence_signal", true, get_parent().name, light_is_on, from_left)
 
 
 func _on_fenceArea_body_exited(body):
 	var from_left = false
-	var light_on = false
+#	var light_on = false
 	
-	if state == ST_SHOWING_LIGHT_ON:
-		light_on = true
+#	if state == ST_SHOWING_LIGHT_ON:
+#		light_on = true
 	if body.global_transform.origin.x < global_transform.origin.x:
 		from_left = true
 		
-	emit_signal("fence_signal", false, get_parent().name, light_on, from_left)
+	emit_signal("fence_signal", false, get_parent().name, light_is_on, from_left)
 

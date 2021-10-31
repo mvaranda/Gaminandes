@@ -8,6 +8,9 @@ const FENCE_NODE_PATHS_PREFIX = "/root/RootNode/Levels/level1/fence_"
 const RED_LIGHT_NODE_NAME = "/red_light"
 const NUM_FENCES = 7
 
+var is_inside_fence = false
+var is_inside_fence_from_left = false
+var light_node
 
 const SPRITES_FPS = 30.0
 var acc_delta = 0.0
@@ -139,8 +142,22 @@ func process_key(val, pressed, shift):
 			print("unhanlded key")
 
 func process_fence_signal(is_enter, name, is_light_on, from_left):
-	var log_txt
 
+	is_inside_fence = is_enter
+	is_inside_fence_from_left = from_left
+	
+	# when coming from right (backing up) we push fwd a bit
+	if is_inside_fence and is_inside_fence_from_left == false:
+		
+		if is_light_on:
+			reset_frame_control()
+			state = ST_SHOCKING
+		else:
+			transform.origin.x += .1
+			emit_signal("lama_position_signal", transform.origin.x)
+		
+	
+	var log_txt
 	if is_enter == true:
 		log_txt = "Enter fence " + name
 	else:
@@ -150,7 +167,6 @@ func process_fence_signal(is_enter, name, is_light_on, from_left):
 		log_txt += ", light ON"
 	else:
 		log_txt += ", light OFF"
-
 	if from_left:
 		log_txt += ", from Left"
 	print(log_txt)
@@ -162,8 +178,8 @@ func _ready():
 	n.connect("key_signal", self, "process_key");
 		
 	for i in range(NUM_FENCES):
-		n = get_node(FENCE_NODE_PATHS_PREFIX + str(i) + RED_LIGHT_NODE_NAME)
-		n.connect("fence_signal", self, "process_fence_signal");
+		light_node = get_node(FENCE_NODE_PATHS_PREFIX + str(i) + RED_LIGHT_NODE_NAME)
+		light_node.connect("fence_signal", self, "process_fence_signal");
 
 	load_images()
 	
@@ -209,8 +225,14 @@ func move_back(delta, imgs):
 func _process(delta):
 	if state == ST_FREE_MOVING:
 		if move == MOV_FWD:
-			transform.origin.x += NORMAL_FWD_SPEED * delta
-			emit_signal("lama_position_signal", transform.origin.x)
+			if is_inside_fence == false:
+				transform.origin.x += NORMAL_FWD_SPEED * delta
+				emit_signal("lama_position_signal", transform.origin.x)
+			else:
+				if light_node.light_is_on:
+					reset_frame_control()
+					state = ST_SHOCKING
+					return
 			move_fwd(delta, walk_images, WALK_FPS, true) # animate sprite fwd
 			
 		if move == MOV_BACK:
