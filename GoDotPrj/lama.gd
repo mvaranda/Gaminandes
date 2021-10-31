@@ -80,6 +80,10 @@ const WAIT_TM_STAND_UP = 1.0 #ST_WAIT_STAND_UP
 onready var mesh_i = get_node("MeshInstance")
 onready var mountains_i = get_node("../mountais")
 
+onready var sound_shock = $shock
+onready var sound_snap = $snap
+onready var sound_batida = $batida
+
 # Get the material in slot 0
 onready var material_one = get_surface_material(0)
 
@@ -113,6 +117,16 @@ func load_images():
 		name = EFALL_FILENAME_PREFIX + String(n) + FALL_FILENAME_EXTENSION
 		load_append_img(efall_images, name)
 
+func start_shock():
+	sound_shock.play()
+	reset_frame_control()
+	state = ST_SHOCKING
+	
+func start_pull_back():
+	sound_batida.play()
+	reset_frame_control()
+	state = ST_PULLING_BACK
+
 func process_key(val, pressed, shift):
 	#print("process_key: got " + val)
 	if pressed == false:
@@ -133,14 +147,11 @@ func process_key(val, pressed, shift):
 			reset_frame_control()
 			move = MOV_DOWN
 			state = ST_SNAPING
+			sound_snap.play()
 		elif val ==  "key_shock":
-			reset_frame_control()
-			#move = MOV_DOWN
-			state = ST_SHOCKING
+			start_shock()
 		elif val ==  "key_collide":
-			reset_frame_control()
-			#move = MOV_DOWN
-			state = ST_PULLING_BACK
+			start_pull_back()
 		else:
 			print("unhanlded key")
 
@@ -153,20 +164,16 @@ func process_fence_signal(is_enter, name, is_light_on, from_left):
 	if is_inside_fence: 
 		if is_inside_fence_from_left == false and state != ST_JUMPING:
 			if is_light_on:
-				print(">>> fire shock 1")
-				reset_frame_control()
-				state = ST_SHOCKING
+				start_shock()
 			else:
 				transform.origin.x += .1
 				emit_signal("lama_position_signal", transform.origin.x)
 		else:
 			if state == ST_JUMPING and (was_a_good_jump_on_start == false or is_light_on):
-				print(">>> fire shock 2 or pushback")
 				if is_light_on:
-					state = ST_SHOCKING
+					start_shock()
 				else:
-					state = ST_PULLING_BACK
-				reset_frame_control()
+					start_pull_back()
 		
 	
 	var log_txt
@@ -246,8 +253,7 @@ func _process(delta):
 				emit_signal("lama_position_signal", transform.origin.x)
 			else:
 				if light_node.light_is_on:
-					reset_frame_control()
-					state = ST_SHOCKING
+					start_shock()
 					return
 			move_fwd(delta, walk_images, WALK_FPS, true) # animate sprite fwd
 			

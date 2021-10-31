@@ -11,5 +11,5 @@ dest_files=[ "res://.import/gaminandes_background.ogg-d8e7d8ada365355a826bab8dab
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

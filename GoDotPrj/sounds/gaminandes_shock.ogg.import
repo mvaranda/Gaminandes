@@ -11,5 +11,5 @@ dest_files=[ "res://.import/gaminandes_shock.ogg-44ba180e04c188b0ee93aea72a9d09a
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

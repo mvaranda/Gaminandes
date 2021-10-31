@@ -11,5 +11,5 @@ dest_files=[ "res://.import/gaminandes_batida_1.ogg-16369bbc5cbd4b56df64243e7e6b
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

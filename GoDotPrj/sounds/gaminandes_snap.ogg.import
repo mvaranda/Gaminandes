@@ -11,5 +11,5 @@ dest_files=[ "res://.import/gaminandes_snap.ogg-49b0e08979d8748f939fc1997d62781b
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
