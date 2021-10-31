@@ -1,6 +1,7 @@
 extends Spatial
 
-
+var play_song = true
+onready var song_caminandes = $mainAudioStreamPlayer
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -33,7 +34,10 @@ func _ready():
 	m0.transform.origin.x = 0
 	m1.transform.origin.x = M1_INITIAL_POS
 	m2.transform.origin.x = M2_INITIAL_POS
-#	$mainAudioStreamPlayer.set_stream_paused(false)
+	
+	if play_song:
+		song_caminandes.play()
+	#$mainAudioStreamPlayer.set_stream_paused(true)
 
 
 
