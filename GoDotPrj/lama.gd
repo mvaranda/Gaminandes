@@ -10,6 +10,7 @@ const NUM_FENCES = 7
 
 var is_inside_fence = false
 var is_inside_fence_from_left = false
+var is_a_good_jump = false
 var light_node
 
 const SPRITES_FPS = 30.0
@@ -147,14 +148,21 @@ func process_fence_signal(is_enter, name, is_light_on, from_left):
 	is_inside_fence_from_left = from_left
 	
 	# when coming from right (backing up) we push fwd a bit
-	if is_inside_fence and is_inside_fence_from_left == false:
-		
-		if is_light_on:
-			reset_frame_control()
-			state = ST_SHOCKING
+	if is_inside_fence: 
+		if is_inside_fence_from_left == false:
+			if is_light_on:
+				reset_frame_control()
+				state = ST_SHOCKING
+			else:
+				transform.origin.x += .1
+				emit_signal("lama_position_signal", transform.origin.x)
 		else:
-			transform.origin.x += .1
-			emit_signal("lama_position_signal", transform.origin.x)
+			if state == ST_JUMPING and is_a_good_jump == false:
+				if is_light_on:
+					state = ST_SHOCKING
+				else:
+					state = ST_PULLING_BACK
+				reset_frame_control()
 		
 	
 	var log_txt
