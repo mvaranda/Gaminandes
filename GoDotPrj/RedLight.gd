@@ -7,7 +7,9 @@ const centerMaterials : Array = [
 	preload("res://light_on.material"),
 	 ]
 
+const NODE_NAME_LAMA_HEAD_KINEMATIC = "headLama"
 signal fence_signal(is_enter, name, is_light_on, from_left)
+signal jump_location_signal(is_enter, name)
 
 const LIGHT_OFF_IDX = 0
 const LIGHT_ON_IDX = 1
@@ -76,4 +78,26 @@ func _on_fenceArea_body_exited(body):
 		from_left = true
 		
 	emit_signal("fence_signal", false, get_parent().name, light_is_on, from_left)
+
+
+
+func _on_jump_area_entered():
+	print("Enter good jump")
+	emit_signal("jump_location_signal", get_parent().name, true)
+
+
+func _on_jump_area_exited():
+	print("Exit good jump")
+	emit_signal("jump_location_signal", get_parent().name, false)
+
+
+func _on_GoodJumpArea_body_entered(body):
+	if body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:
+		print("Enter good jump " + body.name)
+		emit_signal("jump_location_signal", get_parent().name, true)
+
+func _on_GoodJumpArea_body_exited(body):
+	if body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:
+		print("Exit good jump " + body.name)
+		emit_signal("jump_location_signal", get_parent().name, false)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://lama.gd" type="Script" id=1]
 [ext_resource path="res://lama.material" type="Material" id=2]
@@ -11,6 +11,8 @@
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.343831, 0.459965, 0.423207 )
+
+[sub_resource type="BoxShape" id=2]
 
 [node name="level1" instance=ExtResource( 5 )]
 script = ExtResource( 7 )
@@ -36,6 +38,13 @@ transform = Transform( 1.12385, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.437423, 0 )
 [node name="CollisionShape" type="CollisionShape" parent="lama/lamaKinematicBody" index="0"]
 transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.127914, 0.579139, 0 )
 shape = SubResource( 1 )
+
+[node name="headLama" type="KinematicBody" parent="lama" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.384263, 0, 0 )
+
+[node name="headCollisionShape" type="CollisionShape" parent="lama/headLama" index="0"]
+transform = Transform( 0.0141542, 0, 0, 0, 0.372886, 0, 0, 0, 0.463522, 0, 0.354638, 0 )
+shape = SubResource( 2 )
 
 [node name="mountains_closer_0" parent="." index="2" instance=ExtResource( 3 )]
 transform = Transform( 3.05202, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, -1.88329, -1.47935, -0.893841 )

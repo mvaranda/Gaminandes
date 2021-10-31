@@ -11,6 +11,7 @@ const NUM_FENCES = 7
 var is_inside_fence = false
 var is_inside_fence_from_left = false
 var is_a_good_jump = false
+var was_a_good_jump_on_start = false
 var light_node
 
 const SPRITES_FPS = 30.0
@@ -127,6 +128,7 @@ func process_key(val, pressed, shift):
 			reset_frame_control()
 			move = MOV_JUMP
 			state = ST_JUMPING
+			was_a_good_jump_on_start = is_a_good_jump
 		elif val ==  "key_down":
 			reset_frame_control()
 			move = MOV_DOWN
@@ -149,15 +151,17 @@ func process_fence_signal(is_enter, name, is_light_on, from_left):
 	
 	# when coming from right (backing up) we push fwd a bit
 	if is_inside_fence: 
-		if is_inside_fence_from_left == false:
+		if is_inside_fence_from_left == false and state != ST_JUMPING:
 			if is_light_on:
+				print(">>> fire shock 1")
 				reset_frame_control()
 				state = ST_SHOCKING
 			else:
 				transform.origin.x += .1
 				emit_signal("lama_position_signal", transform.origin.x)
 		else:
-			if state == ST_JUMPING and is_a_good_jump == false:
+			if state == ST_JUMPING and was_a_good_jump_on_start == false:
+				print(">>> fire shock 2 or pushback")
 				if is_light_on:
 					state = ST_SHOCKING
 				else:
@@ -179,7 +183,10 @@ func process_fence_signal(is_enter, name, is_light_on, from_left):
 		log_txt += ", from Left"
 	print(log_txt)
 	
-
+func jump_location_signal(name, good_jump_location):
+	is_a_good_jump = good_jump_location
+	print("good jump = " + str(good_jump_location))
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var n = get_node(NODE_PATH_LEVELS)
@@ -188,6 +195,7 @@ func _ready():
 	for i in range(NUM_FENCES):
 		light_node = get_node(FENCE_NODE_PATHS_PREFIX + str(i) + RED_LIGHT_NODE_NAME)
 		light_node.connect("fence_signal", self, "process_fence_signal");
+		light_node.connect("jump_location_signal", self, "jump_location_signal");
 
 	load_images()
 	
