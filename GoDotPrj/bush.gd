@@ -16,8 +16,9 @@ func _ready():
 #	pass
 
 func enable(b):
-	visible = b
-	enabled = b
+	if enabled != b or visible != b:
+		visible = b
+		enabled = b
 	
 func _on_bush_entered(body):
 	if enabled and body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:

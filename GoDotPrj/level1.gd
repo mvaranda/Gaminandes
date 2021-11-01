@@ -2,9 +2,8 @@ extends Spatial
 
 var play_song = false
 onready var song_caminandes = $mainAudioStreamPlayer
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var bush_array = []
+
 const NODE_PATH_RED_LIGHT = "/root/RootNode/Levels/level1/lama"
 const NODE_PATH_MOUNTAINS_0 = "/root/RootNode/Levels/level1/mountains_closer_0"
 const NODE_PATH_MOUNTAINS_1 = "/root/RootNode/Levels/level1/mountains_closer_1"
@@ -44,12 +43,17 @@ func rand_level_1():
 		return true
 	return false
 	
-var bush_array = []
 # Called when the node enters the scene tree for the first time.
+
+func process_snaped_signal():
+	if active_bush >= 0:
+		bush_array[active_bush].enable(false)
+		
 func _ready():
 	randomize()
 	var n = get_node(NODE_PATH_RED_LIGHT)
 	n.connect("lama_position_signal", self, "process_lama_position_signal");
+	n.connect("snaped_signal", self, "process_snaped_signal")
 	m0.transform.origin.x = 0
 	m1.transform.origin.x = M1_INITIAL_POS
 	m2.transform.origin.x = M2_INITIAL_POS

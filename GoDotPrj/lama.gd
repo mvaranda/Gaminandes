@@ -3,6 +3,7 @@ extends MeshInstance
 const NODE_PATH_LEVELS = "/root/RootNode/Levels"
 
 signal lama_position_signal(pos)
+signal snaped_signal()
 
 const FENCE_NODE_PATHS_PREFIX = "/root/RootNode/Levels/level1/fence_"
 const RED_LIGHT_NODE_NAME = "/red_light"
@@ -263,7 +264,12 @@ func _process(delta):
 			move_back(delta, walk_images)
 			
 	if state == ST_SNAPING:
-		if move_fwd(delta, snap_images, SNAP_FPS, false) >= SNAP_NUM_IMGS:
+		var idx = move_fwd(delta, snap_images, SNAP_FPS, false)
+		if idx >= SNAP_NUM_IMGS/2:
+			emit_signal("snaped_signal")
+			
+		if idx >= SNAP_NUM_IMGS:
+			#emit_signal("snaped_signal")
 			state = ST_FREE_MOVING
 			reset_frame_control()
 
