@@ -43,7 +43,7 @@ func process_lama_position_signal(lama_pos):
 
 func process_bush_location_signal(name, is_enter):
 	var i = name.substr(5).to_int()
-	print("bush " + str(i) + ", enter = " + str(is_enter))
+	#print("bush " + str(i) + ", enter = " + str(is_enter))
 	if is_enter:
 		active_bush = i
 	else:

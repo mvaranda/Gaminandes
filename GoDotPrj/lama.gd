@@ -22,6 +22,8 @@ const FENCE_NODE_PATHS_PREFIX = "/root/RootNode/Levels/level1/fence_"
 const RED_LIGHT_NODE_NAME = "/red_light"
 const NUM_FENCES = 7
 
+var fence_nodes_array = []
+
 var is_inside_fence = false
 var is_inside_fence_from_left = false
 var is_a_good_jump = false
@@ -190,23 +192,31 @@ func process_fence_signal(is_enter, name, is_light_on, from_left):
 					start_pull_back()
 		
 	
-	var log_txt
-	if is_enter == true:
-		log_txt = "Enter fence " + name
-	else:
-		log_txt = "Exit fence " + name
-		
-	if is_light_on == true:
-		log_txt += ", light ON"
-	else:
-		log_txt += ", light OFF"
-	if from_left:
-		log_txt += ", from Left"
-	print(log_txt)
+#	var log_txt
+#	if is_enter == true:
+#		log_txt = "Enter fence " + name
+#	else:
+#		log_txt = "Exit fence " + name
+#
+#	if is_light_on == true:
+#		log_txt += ", light ON"
+#	else:
+#		log_txt += ", light OFF"
+#	if from_left:
+#		log_txt += ", from Left"
+#	print(log_txt)
 	
 func jump_location_signal(name, good_jump_location):
 	is_a_good_jump = good_jump_location
 	#print("good jump = " + str(good_jump_location))
+
+func get_active_fence():
+	for i in range(NUM_FENCES):
+		if global_transform.origin.x < fence_nodes_array[i].global_transform.origin.x:
+			#print("get_active_fence: " + str(i))
+			return i
+	#print("get_active_fence (last): 0" )
+	return 7
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -215,10 +225,14 @@ func _ready():
 		
 	for i in range(NUM_FENCES):
 		light_node = get_node(FENCE_NODE_PATHS_PREFIX + str(i) + RED_LIGHT_NODE_NAME)
+		fence_nodes_array.append(light_node)
+		print(fence_nodes_array[i])
 		light_node.connect("fence_signal", self, "process_fence_signal");
 		light_node.connect("jump_location_signal", self, "jump_location_signal");
+		light_node.set_flash(0, i)
 
 	load_images()
+	get_active_fence()
 	
 		
 func get_next_frame_fwd_idx(delta, num_frames, fps, rollover):
@@ -291,6 +305,7 @@ func _process(delta):
 		if idx >= JUMP_NUM_IMGS - 1:
 			state = ST_FREE_MOVING
 			reset_frame_control()
+			get_active_fence()
 		elif idx < JUMP_NUM_IMGS - 10:
 			transform.origin.x += JUMP_FWD_SPEED * delta
 			emit_signal("lama_position_signal", transform.origin.x)
@@ -301,6 +316,7 @@ func _process(delta):
 			state = ST_WAIT_STAND_UP
 			timer_count = 0.0
 			reset_frame_control()
+			get_active_fence()
 		elif idx < FALL_STOP_MOVING_IDX:
 			transform.origin.x -= JUMP_FWD_SPEED * delta
 			emit_signal("lama_position_signal", transform.origin.x)
@@ -312,6 +328,7 @@ func _process(delta):
 			state = ST_WAIT_STAND_UP
 			timer_count = 0.0
 			reset_frame_control()
+			get_active_fence()
 			
 		elif idx < FALL_STOP_MOVING_IDX:
 			transform.origin.x -= JUMP_FWD_SPEED * delta
