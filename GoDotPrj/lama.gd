@@ -96,7 +96,7 @@ func load_append_img(img_array, name):
 
 func load_images():
 	var name
-	var img
+
 	for n in range(WALK_START_IMG, WALK_FINAL_IMG + 1):
 		name = WALK_FILENAME_PREFIX + String(n) + WALK_FILENAME_EXTENSION
 		load_append_img(walk_images, name)
@@ -312,13 +312,4 @@ func _process(delta):
 			state = ST_FREE_MOVING
 			reset_frame_control()
 
-			
-func _on_Area_body_entered(body):
-	print("Enter Fence " + body.get_parent().name)
-	pass # Replace with function body.
-
-
-func _on_Area_body_exited(body):
-	print("Leave Fence 2")
-	pass # Replace with function body.
 

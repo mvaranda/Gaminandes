@@ -4,7 +4,7 @@ var play_song = false
 onready var song_caminandes = $mainAudioStreamPlayer
 var bush_array = []
 
-const NODE_PATH_RED_LIGHT = "/root/RootNode/Levels/level1/lama"
+const NODE_PATH_LAMA = "/root/RootNode/Levels/level1/lama"
 const NODE_PATH_MOUNTAINS_0 = "/root/RootNode/Levels/level1/mountains_closer_0"
 const NODE_PATH_MOUNTAINS_1 = "/root/RootNode/Levels/level1/mountains_closer_1"
 const NODE_PATH_MOUNTAINS_2 = "/root/RootNode/Levels/level1/mountains_closer_2"
@@ -24,7 +24,6 @@ onready var m2 = get_node(NODE_PATH_MOUNTAINS_2)
 
 func process_lama_position_signal(lama_pos):
 	var pos = (lama_pos + LAMA_INITIAL_X) * SPEED_LOWER_FACTOR
-	var localTranslate = Vector3(pos,0,0)
 	m0.transform.origin.x = pos
 	m1.transform.origin.x = pos + M1_INITIAL_POS
 	m2.transform.origin.x = pos + M2_INITIAL_POS
@@ -51,7 +50,7 @@ func process_snaped_signal():
 		
 func _ready():
 	randomize()
-	var n = get_node(NODE_PATH_RED_LIGHT)
+	var n = get_node(NODE_PATH_LAMA)
 	n.connect("lama_position_signal", self, "process_lama_position_signal");
 	n.connect("snaped_signal", self, "process_snaped_signal")
 	m0.transform.origin.x = 0

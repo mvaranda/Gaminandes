@@ -39,7 +39,7 @@ func changeMaterial(mat_idx):
 	
 func _ready():
 	timer_set(2)
-	state == ST_SHOWING_LIGHT_OFF
+	state = ST_SHOWING_LIGHT_OFF
 
 func _process(delta):
 	if timer_update_and_check(delta) == true:
