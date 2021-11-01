@@ -1,10 +1,9 @@
 extends Spatial
 
 const NODE_NAME_LAMA_HEAD_KINEMATIC = "headLama"
+var enabled = false
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+signal bush_location_signal(name, is_enter)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -16,13 +15,18 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
+func enable(b):
+	visible = b
+	enabled = b
+	
 func _on_bush_entered(body):
-	if body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:
-		print("bush Enter " + name + "body: " + body.name)
+	if enabled and body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:
+		#print("bush Enter " + name + "body: " + body.name)
+		emit_signal("bush_location_signal", name, true)
 
 
 func _on_bush_exit(body):
-	if body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:
-		print("bush Exit " + name + "body: " + body.name)
+	if enabled and body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:
+		#print("bush Exit " + name + "body: " + body.name)
+		emit_signal("bush_location_signal", name, false)
 
