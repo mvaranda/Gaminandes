@@ -78,6 +78,8 @@ func set_flash(level_val, pattern_val):
 	level = level_val
 	patter = pattern_val
 	patter_idx = 0
+	timer_counter = 0.0
+	timer_expire = 0.0
 
 func timer_set(time):
 	timer_counter = 0.0
