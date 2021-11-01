@@ -192,7 +192,7 @@ func process_fence_signal(is_enter, name, is_light_on, from_left):
 	
 func jump_location_signal(name, good_jump_location):
 	is_a_good_jump = good_jump_location
-	print("good jump = " + str(good_jump_location))
+	#print("good jump = " + str(good_jump_location))
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():

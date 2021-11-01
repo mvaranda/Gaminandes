@@ -82,7 +82,7 @@ func _on_fenceArea_body_exited(body):
 
 
 func _on_jump_area_entered():
-	print("Enter good jump")
+	#print("Enter good jump")
 	emit_signal("jump_location_signal", get_parent().name, true)
 
 
@@ -93,11 +93,11 @@ func _on_jump_area_exited():
 
 func _on_GoodJumpArea_body_entered(body):
 	if body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:
-		print("Enter good jump " + body.name)
+		#print("Enter good jump " + body.name)
 		emit_signal("jump_location_signal", get_parent().name, true)
 
 func _on_GoodJumpArea_body_exited(body):
 	if body.name == NODE_NAME_LAMA_HEAD_KINEMATIC:
-		print("Exit good jump " + body.name)
+		#print("Exit good jump " + body.name)
 		emit_signal("jump_location_signal", get_parent().name, false)
 

@@ -26,8 +26,57 @@ script = ExtResource( 7 )
 transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 
 [node name="bush_0" parent="." index="1" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 2.3733, 0, -1.1 )
 
-[node name="lama" parent="." index="2"]
+[node name="bush_1" parent="." index="2" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 2.99378, 0, -1.1 )
+
+[node name="bush_2" parent="." index="3" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 3.62778, 0, -1.1 )
+
+[node name="bush_3" parent="." index="4" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 4.25878, 0, -1.1 )
+
+[node name="bush_4" parent="." index="5" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 4.88504, 0, -1.1 )
+
+[node name="bush_5" parent="." index="6" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 5.52995, 0, -1.1 )
+
+[node name="bush_6" parent="." index="7" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 6.15652, 0, -1.1 )
+
+[node name="bush_7" parent="." index="8" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 6.79972, 0, -1.1 )
+
+[node name="bush_8" parent="." index="9" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 7.40766, 0, -1.1 )
+
+[node name="bush_9" parent="." index="10" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 9.40246, 0, -1.1 )
+
+[node name="bush_10" parent="." index="11" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 10.0363, 0, -1.1 )
+
+[node name="bush_11" parent="." index="12" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 10.6822, 0, -1.1 )
+
+[node name="bush_12" parent="." index="13" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 11.3364, 0, -1.1 )
+
+[node name="bush_13" parent="." index="14" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 11.9868, 0, -1.1 )
+
+[node name="bush_14" parent="." index="15" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 12.6558, 0, -1.1 )
+
+[node name="bush_15" parent="." index="16" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 13.2681, 0, -1.1 )
+
+[node name="bush_16" parent="." index="17" instance=ExtResource( 13 )]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 13.9268, 0, -1.1 )
+
+[node name="lama" parent="." index="18"]
 transform = Transform( 1.44316, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, -1.88329, 0, -0.893841 )
 material/0 = ExtResource( 2 )
 script = ExtResource( 1 )
@@ -63,48 +112,48 @@ stream = ExtResource( 11 )
 [node name="snap" type="AudioStreamPlayer" parent="lama" index="6"]
 stream = ExtResource( 12 )
 
-[node name="mountains_closer_0" parent="." index="3" instance=ExtResource( 3 )]
+[node name="mountains_closer_0" parent="." index="19" instance=ExtResource( 3 )]
 transform = Transform( 3.05202, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, -1.88329, -1.47935, -0.893841 )
 
-[node name="mountains_closer_2" parent="." index="4" instance=ExtResource( 3 )]
+[node name="mountains_closer_2" parent="." index="20" instance=ExtResource( 3 )]
 transform = Transform( 3.05202, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, 93.3653, -1.47924, -0.893841 )
 
-[node name="mountains_closer_1" parent="." index="5" instance=ExtResource( 3 )]
+[node name="mountains_closer_1" parent="." index="21" instance=ExtResource( 3 )]
 transform = Transform( 3.05202, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, 46.3706, -1.47935, -0.893841 )
 
-[node name="terrain_2" parent="." index="6" instance=ExtResource( 6 )]
+[node name="terrain_2" parent="." index="22" instance=ExtResource( 6 )]
 transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, 71.464, 0, 0 )
 
-[node name="terrain_1" parent="." index="7" instance=ExtResource( 6 )]
+[node name="terrain_1" parent="." index="23" instance=ExtResource( 6 )]
 transform = Transform( 2.41776, 0, 0, 0, 1, 0, 0, 0, 1, 35.724, 0, 0 )
 
-[node name="DirectionalLight" type="DirectionalLight" parent="." index="8"]
+[node name="DirectionalLight" type="DirectionalLight" parent="." index="24"]
 transform = Transform( 0.970855, 0, -0.239669, 0.132481, 0.833336, 0.536656, 0.199725, -0.552766, 0.809049, 1.78167, 3.64248, 3.70862 )
 light_energy = 0.52
 light_specular = 0.37
 shadow_enabled = true
 
-[node name="fence_0" parent="." index="9" instance=ExtResource( 8 )]
+[node name="fence_0" parent="." index="25" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.01334, -0.088, -0.210905 )
 
-[node name="fence_1" parent="." index="10" instance=ExtResource( 8 )]
+[node name="fence_1" parent="." index="26" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -0.088, -0.211 )
 
-[node name="fence_2" parent="." index="11" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, -0.088, -0.211 )
+[node name="fence_2" parent="." index="27" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8467, -0.088, -0.211 )
 
-[node name="fence_3" parent="." index="12" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26, -0.088, -0.211 )
+[node name="fence_3" parent="." index="28" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.1248, -0.088, -0.211 )
 
-[node name="fence_4" parent="." index="13" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33, -0.088, -0.211 )
+[node name="fence_4" parent="." index="29" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25.511, -0.088, -0.211 )
 
-[node name="fence_5" parent="." index="14" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 39, -0.088, -0.211 )
+[node name="fence_5" parent="." index="30" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 28.4782, -0.088, -0.211 )
 
-[node name="fence_6" parent="." index="15" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 47, -0.088, -0.211 )
+[node name="fence_6" parent="." index="31" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.4065, -0.088, -0.211 )
 
-[node name="mainAudioStreamPlayer" type="AudioStreamPlayer" parent="." index="16"]
+[node name="mainAudioStreamPlayer" type="AudioStreamPlayer" parent="." index="32"]
 stream = ExtResource( 9 )
 volume_db = -6.0
