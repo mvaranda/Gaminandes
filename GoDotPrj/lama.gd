@@ -1,3 +1,16 @@
+##############################################################
+#
+#               G A M I N A N D E S   G A M E
+#
+# License: Attribution-NonCommercial-ShareAlike CC BY-NC-SA
+# https://creativecommons.org/licenses/by-nc-sa/4.0/
+#
+# Copyrights: Marcelo Varanda
+# Initial date: October 2021
+# http://www.varanda.ca
+#
+##############################################################
+
 extends MeshInstance
 
 const NODE_PATH_LEVELS = "/root/RootNode/Levels"
