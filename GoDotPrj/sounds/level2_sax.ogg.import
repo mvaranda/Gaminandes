@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/level2_sax.ogg-87c696d7ab29eacc6b5f143639641143.oggstr"
+
+[deps]
+
+source_file="res://sounds/level2_sax.ogg"
+dest_files=[ "res://.import/level2_sax.ogg-87c696d7ab29eacc6b5f143639641143.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

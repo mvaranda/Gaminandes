@@ -16,6 +16,26 @@ extends Node
 const NUM_INITIAL_LIFES = 3
 const NUM_MAX_LIFES = 6
 
+const frases : Array = [
+	"Excellent",
+	"Exceptional",
+	"Fabulous",
+	"Fantastic",
+	"Sensational",
+	"Wonderful",
+	"Unbelievable",
+	"Way to go",
+	"Simple superb",
+	"Stupendous",
+	"Magnificent",
+	"Marvelous",
+	"Thats great",
+	"Good going",
+	"Better than ever",
+	"You are one of a king",
+	"You have mastered it"
+]
+
 onready var score_label = get_node("ScorePanelContainer/ScoreValue")
 onready var level_label = get_node("LevelPanelContainer/LevelValue")
 onready var lama_node = get_node("level1/lama")
