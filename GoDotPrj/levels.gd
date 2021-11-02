@@ -13,11 +13,20 @@
 
 extends Node
 
+onready var score_label = get_node("ScorePanelContainer/ScoreValue")
+onready var level_label = get_node("LevelPanelContainer/LevelValue")
+var score = 0
+var level = 1
+
 # To simulate low FPS
 const USE_DELAY = false
 
 var  is_action_pressed = false
 signal key_signal(key, pressed, shift)
+
+func _ready():
+	init_score()
+	$level1.connect("score_snap_signal", self, "process_score_snap_signal")
 
 func check_key(event, key, sig):
 	if event.is_action_pressed(key):
@@ -47,7 +56,16 @@ func _input(event):
 		emit_signal("key_signal", "key_collide", true, false)
 		return
 
-		
+################ score functions ##############
+func init_score():
+	score_label.text = str(score)
+	level_label.text = str(level)
+	
+func process_score_snap_signal(bush_idx):
+	score += 10 + bush_idx
+	score_label.text = str(score)
+
+############### Slow Down Test ############
 func delay():
 	var a = 0
 	for i in range(0,1000):
