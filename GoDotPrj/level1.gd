@@ -22,6 +22,12 @@ const NODE_PATH_MOUNTAINS_0 = "/root/RootNode/Levels/level1/mountains_closer_0"
 const NODE_PATH_MOUNTAINS_1 = "/root/RootNode/Levels/level1/mountains_closer_1"
 const NODE_PATH_MOUNTAINS_2 = "/root/RootNode/Levels/level1/mountains_closer_2"
 
+onready var score_label = get_node("../ScorePanelContainer/ScoreValue")
+onready var level_label = get_node("../LevelPanelContainer/LevelValue")
+#
+var score = 0
+var level = 1
+
 var active_bush = -1
 
 const NUM_BUSHES = 38
@@ -63,10 +69,12 @@ func process_snaped_signal():
 	if active_bush >= 0:
 		bush_array[active_bush].enable(false)
 		sound_snap.play()
+		score_snap(active_bush)
 		active_bush = -1
 		
 func _ready():
 	randomize()
+	init_score()
 	var n = get_node(NODE_PATH_LAMA)
 	n.connect("lama_position_signal", self, "process_lama_position_signal");
 	n.connect("snaped_signal", self, "process_snaped_signal")
@@ -85,7 +93,13 @@ func _ready():
 		song_caminandes.play()
 	#$mainAudioStreamPlayer.set_stream_paused(true)
 
-
+func init_score():
+	score_label.text = str(score)
+	level_label.text = str(level)
+	
+func score_snap(bush_idx):
+	score += 10 + bush_idx
+	score_label.text = str(score)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
