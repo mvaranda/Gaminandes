@@ -23,17 +23,31 @@ var score = 0
 var level = 1
 var lifes = NUM_INITIAL_LIFES
 var life_icons = []
+var life_reward_counter = 0
+const LIFE_REWARD_VAL = 3
 const LIFE_NODE_NAME_PREFIX = "LeftPanelContainer/LamaIcon_"
 
+func process_jump_reward ():
+	life_reward_counter += 1
+	if life_reward_counter >= LIFE_REWARD_VAL:
+		if lifes < NUM_MAX_LIFES:
+		  lifes += 1
+		  update_lifes()
+		life_reward_counter = 0
+		  
 # To simulate low FPS
 const USE_DELAY = false
 
 var  is_action_pressed = false
 signal key_signal(key, pressed, shift)
 
+func process_end_level_signal():
+	print("todo: show level or game over")
+
 func _ready():
 	init_score()
 	$level1.connect("score_snap_signal", self, "process_score_snap_signal")
+	$level1.connect("end_level_signal", self, "process_end_level_signal")
 	lama_node.connect("score_jump", self, "process_score_jump")
 	lama_node.connect("score_shock", self, "process_score_shock")
 	for i in range(NUM_MAX_LIFES):
@@ -88,6 +102,7 @@ func process_score_snap_signal(bush_idx):
 func process_score_jump(fence):
 	score += POINTS_FENCE + fence * POINTS_FENCE_MULTIPLIER
 	score_label.text = str(score)
+	process_jump_reward()
 
 func process_score_shock():
 	if lifes == 0:

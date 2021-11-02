@@ -13,11 +13,13 @@
 
 extends Spatial
 
-var play_song = false
+var play_song = true
 onready var song_caminandes = $mainAudioStreamPlayer
 var bush_array = []
 
 signal score_snap_signal(bush)
+signal limit_signal(is_enter)
+signal end_level_signal()
 
 const NODE_PATH_LAMA = "/root/RootNode/Levels/level1/lama"
 const NODE_PATH_MOUNTAINS_0 = "/root/RootNode/Levels/level1/mountains_closer_0"
@@ -92,3 +94,19 @@ func _ready():
 	if play_song:
 		song_caminandes.play()
 	#$mainAudioStreamPlayer.set_stream_paused(true)
+
+
+func _on_trackLimit_entered(body):
+	print("_on_trackLimit_entered")
+	emit_signal ("limit_signal", true)
+
+
+func _on_trackLimit_exited(body):
+	print("_on_trackLimit_exited")
+	emit_signal ("limit_signal", false)
+
+
+func _on_trackEnd_entered(body):
+	emit_signal ("end_level_signal")
+	if play_song:
+		song_caminandes.stop()

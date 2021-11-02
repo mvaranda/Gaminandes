@@ -14,6 +14,7 @@
 extends MeshInstance
 
 const NODE_PATH_LEVELS = "/root/RootNode/Levels"
+const NODE_PATH_LEVEL1 = "/root/RootNode/Levels/level1"
 
 signal lama_position_signal(pos)
 signal snaped_signal()
@@ -50,6 +51,7 @@ const ST_PULLING_BACK = 2
 const ST_SHOCKING     = 3
 const ST_SNAPING      = 4
 const ST_WAIT_STAND_UP = 5
+const ST_WAIT_RESTART  = 6
 
 var state = ST_FREE_MOVING
 
@@ -95,6 +97,8 @@ var efall_images = []
 
 var timer_count = 0.0
 const WAIT_TM_STAND_UP = 1.0 #ST_WAIT_STAND_UP
+
+var track_limit = false
 
 onready var mesh_i = get_node("MeshInstance")
 onready var mountains_i = get_node("../mountais")
@@ -222,11 +226,23 @@ func get_active_fence():
 	#print("get_active_fence (last): 0" )
 	active_fence = 7
 	return 7
+
+func process_end_level_signal():
+	print("end level")
+	state = ST_WAIT_RESTART
+	
+func process_limit_signal(is_enter):
+	print("track limit")
+	track_limit = is_enter
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var n = get_node(NODE_PATH_LEVELS)
 	n.connect("key_signal", self, "process_key");
+	
+	n = get_node(NODE_PATH_LEVEL1)	
+	n.connect("limit_signal", self, "process_limit_signal");
+	n.connect("end_level_signal", self, "process_end_level_signal");
 		
 	for i in range(NUM_FENCES):
 		light_node = get_node(FENCE_NODE_PATHS_PREFIX + str(i) + RED_LIGHT_NODE_NAME)
@@ -290,8 +306,9 @@ func _process(delta):
 			move_fwd(delta, walk_images, WALK_FPS, true) # animate sprite fwd
 			
 		if move == MOV_BACK:
-			transform.origin.x -= NORMAL_FWD_SPEED * delta
-			emit_signal("lama_position_signal", transform.origin.x)
+			if track_limit == false:
+				transform.origin.x -= NORMAL_FWD_SPEED * delta
+				emit_signal("lama_position_signal", transform.origin.x)
 			move_back(delta, walk_images)
 			
 	if state == ST_SNAPING:
@@ -352,5 +369,8 @@ func _process(delta):
 			set_surface_material(0, material_one)
 			state = ST_FREE_MOVING
 			reset_frame_control()
+			
+	if state == ST_WAIT_RESTART:
+		pass
 
 
