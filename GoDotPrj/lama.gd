@@ -97,8 +97,9 @@ onready var mesh_i = get_node("MeshInstance")
 onready var mountains_i = get_node("../mountais")
 
 onready var sound_shock = $shock
-onready var sound_snap = $snap
 onready var sound_batida = $batida
+
+var snap_signal_sent = false
 
 # Get the material in slot 0
 onready var material_one = get_surface_material(0)
@@ -163,7 +164,6 @@ func process_key(val, pressed, shift):
 			reset_frame_control()
 			move = MOV_DOWN
 			state = ST_SNAPING
-			sound_snap.play()
 		elif val ==  "key_shock":
 			start_shock()
 		elif val ==  "key_collide":
@@ -293,10 +293,13 @@ func _process(delta):
 	if state == ST_SNAPING:
 		var idx = move_fwd(delta, snap_images, SNAP_FPS, false)
 		if idx >= SNAP_NUM_IMGS/2:
-			emit_signal("snaped_signal")
+			if snap_signal_sent == false:
+				emit_signal("snaped_signal")
+				snap_signal_sent = true
 			
 		if idx >= SNAP_NUM_IMGS:
 			#emit_signal("snaped_signal")
+			snap_signal_sent = false
 			state = ST_FREE_MOVING
 			reset_frame_control()
 

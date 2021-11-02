@@ -172,9 +172,6 @@ stream = ExtResource( 10 )
 [node name="batida" type="AudioStreamPlayer" parent="lama" index="5"]
 stream = ExtResource( 11 )
 
-[node name="snap" type="AudioStreamPlayer" parent="lama" index="6"]
-stream = ExtResource( 12 )
-
 [node name="mountains_closer_0" parent="." index="40" instance=ExtResource( 3 )]
 transform = Transform( 3.05202, 0, 0, 0, 1.44316, 0, 0, 0, 1.44316, -1.88329, -1.47935, -0.893841 )
 
@@ -220,3 +217,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31.4065, -0.088, -0.211 )
 [node name="mainAudioStreamPlayer" type="AudioStreamPlayer" parent="." index="53"]
 stream = ExtResource( 9 )
 volume_db = -6.0
+
+[node name="snap" type="AudioStreamPlayer" parent="." index="54"]
+stream = ExtResource( 12 )

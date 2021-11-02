@@ -35,6 +35,8 @@ onready var m0 = get_node(NODE_PATH_MOUNTAINS_0)
 onready var m1 = get_node(NODE_PATH_MOUNTAINS_1)
 onready var m2 = get_node(NODE_PATH_MOUNTAINS_2)
 
+onready var sound_snap = $snap
+
 func process_lama_position_signal(lama_pos):
 	var pos = (lama_pos + LAMA_INITIAL_X) * SPEED_LOWER_FACTOR
 	m0.transform.origin.x = pos
@@ -60,6 +62,8 @@ func rand_level_1():
 func process_snaped_signal():
 	if active_bush >= 0:
 		bush_array[active_bush].enable(false)
+		sound_snap.play()
+		active_bush = -1
 		
 func _ready():
 	randomize()
