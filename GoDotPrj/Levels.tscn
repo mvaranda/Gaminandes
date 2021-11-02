@@ -85,6 +85,12 @@ margin_right = 788.0
 margin_bottom = 128.0
 texture = ExtResource( 6 )
 
+[node name="LamaIcon_5" type="TextureRect" parent="Levels/LeftPanelContainer"]
+margin_left = 792.0
+margin_right = 920.0
+margin_bottom = 128.0
+texture = ExtResource( 6 )
+
 [node name="ScorePanelContainer" type="HBoxContainer" parent="Levels"]
 margin_left = 510.575
 margin_top = 6.43327

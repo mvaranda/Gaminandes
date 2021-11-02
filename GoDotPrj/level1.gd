@@ -54,8 +54,8 @@ func process_bush_location_signal(name, is_enter):
 		active_bush = -1
 
 func rand_level_1():
-	# 1 in 4
-	if (randi() % 4) == 0:
+	# 1 in 3
+	if (randi() % 3) == 0:
 		return true
 	return false
 	
@@ -69,6 +69,7 @@ func process_snaped_signal():
 		active_bush = -1
 		
 func _ready():
+	var num_enable = 0
 	randomize()
 	var n = get_node(NODE_PATH_LAMA)
 	n.connect("lama_position_signal", self, "process_lama_position_signal");
@@ -78,11 +79,15 @@ func _ready():
 	m2.transform.origin.x = M2_INITIAL_POS
 	
 	for i in range(NUM_BUSHES):
+		var enabled
 		n = get_node("bush_" + str(i))
 		bush_array.append(n)
-		n.enable(rand_level_1())
+		enabled = rand_level_1()
+		n.enable(enabled)
+		if enabled:
+			num_enable += 1
 		n.connect("bush_location_signal", self, "process_bush_location_signal");
-		
+	print("num bushes = " + str(num_enable))
 	
 	if play_song:
 		song_caminandes.play()

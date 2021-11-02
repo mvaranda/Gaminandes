@@ -73,7 +73,7 @@ var 	timer_counter = 0.0
 var	timer_expire = 0.0
 
 func set_flash(level_val, pattern_val):
-	print("set_flash: level = " + str(level_val) + ", pat = " + str(pattern_val))
+	#print("set_flash: level = " + str(level_val) + ", pat = " + str(pattern_val))
 	state = ST_SHOWING_LIGHT_OFF
 	level = level_val
 	patter = pattern_val
@@ -148,7 +148,7 @@ func _on_jump_area_entered():
 
 
 func _on_jump_area_exited():
-	print("Exit good jump")
+	#print("Exit good jump")
 	emit_signal("jump_location_signal", get_parent().name, false)
 
 

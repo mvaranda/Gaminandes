@@ -13,10 +13,17 @@
 
 extends Node
 
+const NUM_INITIAL_LIFES = 3
+const NUM_MAX_LIFES = 6
+
 onready var score_label = get_node("ScorePanelContainer/ScoreValue")
 onready var level_label = get_node("LevelPanelContainer/LevelValue")
+onready var lama_node = get_node("level1/lama")
 var score = 0
 var level = 1
+var lifes = NUM_INITIAL_LIFES
+var life_icons = []
+const LIFE_NODE_NAME_PREFIX = "LeftPanelContainer/LamaIcon_"
 
 # To simulate low FPS
 const USE_DELAY = false
@@ -27,6 +34,11 @@ signal key_signal(key, pressed, shift)
 func _ready():
 	init_score()
 	$level1.connect("score_snap_signal", self, "process_score_snap_signal")
+	lama_node.connect("score_jump", self, "process_score_jump")
+	lama_node.connect("score_shock", self, "process_score_shock")
+	for i in range(NUM_MAX_LIFES):
+		life_icons.append( get_node(LIFE_NODE_NAME_PREFIX + str(i)) )
+	update_lifes()
 
 func check_key(event, key, sig):
 	if event.is_action_pressed(key):
@@ -57,14 +69,39 @@ func _input(event):
 		return
 
 ################ score functions ##############
+const POINTS_FENCE = 100
+const POINTS_FENCE_MULTIPLIER = 10
+const POINTS_SNAP = 10
+const BUSH_COUNTER_INCREMENT = 5
+
+var bush_counter = 0
+
 func init_score():
 	score_label.text = str(score)
 	level_label.text = str(level)
 	
 func process_score_snap_signal(bush_idx):
-	score += 10 + bush_idx
+	score += POINTS_SNAP + bush_counter
+	bush_counter += BUSH_COUNTER_INCREMENT
 	score_label.text = str(score)
 
+func process_score_jump(fence):
+	score += POINTS_FENCE + fence * POINTS_FENCE_MULTIPLIER
+	score_label.text = str(score)
+
+func process_score_shock():
+	if lifes == 0:
+		print("Game Over")
+		return
+	lifes -= 1
+	update_lifes()
+	
+func update_lifes():
+	for i in range(NUM_MAX_LIFES):
+		if i < lifes:
+			life_icons[i].visible = true
+		else:
+			life_icons[i].visible = false
 ############### Slow Down Test ############
 func delay():
 	var a = 0
