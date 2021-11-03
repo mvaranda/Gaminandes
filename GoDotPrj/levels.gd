@@ -100,7 +100,7 @@ func process_end_level_signal():
 		motivation_label_node.text = frases[randi() % frases.size()]
 		timer_set(WAIT_NEW_LEVEL)
 		state = ST_WAIT_NEW_LEVEL
-		emit_signal("set_level_signal", level)
+		#emit_signal("set_level_signal", level)
 		if level == 1:
 			node_sound_sax.play()
 		elif level == 2:
@@ -188,6 +188,7 @@ func process_score_shock():
 	if lifes == 0:
 		node_sound_banjo.play()
 		process_game_over()
+		$level1/mainAudioStreamPlayer.stop()
 		return
 	lifes -= 1
 	update_lifes()
@@ -211,7 +212,9 @@ func _process(delta):
 	if state == ST_WAIT_NEW_LEVEL:
 		if timer_update_and_check(delta) == true:
 			print("timeout")
+			emit_signal("set_level_signal", level-1)
 			end_level_node.visible = false
+			level_label.text = str(level)
 			state = ST_PLAY_LEVEL
 
 
