@@ -113,7 +113,7 @@ var snap_signal_sent = false
 onready var material_one = get_surface_material(0)
 
 func process_debug_key():
-	pass
+	global_transform.origin.x = 33
 	#emit_signal("end_")
 	
 func load_append_img(img_array, name):
@@ -239,6 +239,7 @@ func process_end_level_signal():
 	state = ST_WAIT_RESTART
 	
 func process_set_level_signal(level):
+	print("lama process_set_level_signal")
 	global_transform.origin.x = LAMA_INITIAL_POSITION
 	active_fence = 0
 	is_inside_fence = false

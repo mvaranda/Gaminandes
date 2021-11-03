@@ -188,6 +188,51 @@ margin_top = 432.0
 margin_right = 829.0
 margin_bottom = 452.0
 
+[node name="GameOverPanel" type="PanelContainer" parent="Levels"]
+visible = false
+modulate = Color( 0.0156863, 0.952941, 1, 0.686275 )
+show_behind_parent = true
+margin_left = 226.186
+margin_top = 177.718
+margin_right = 1069.19
+margin_bottom = 643.718
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Levels/GameOverPanel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 836.0
+margin_bottom = 528.0
+
+[node name="GameOverStatic" type="Label" parent="Levels/GameOverPanel/VBoxContainer"]
+margin_right = 829.0
+margin_bottom = 255.0
+custom_fonts/font = ExtResource( 7 )
+text = "Game Over
+
+"
+align = 1
+
+[node name="ScoreLabel" type="Label" parent="Levels/GameOverPanel/VBoxContainer"]
+margin_top = 259.0
+margin_right = 829.0
+margin_bottom = 428.0
+custom_fonts/font = ExtResource( 7 )
+text = "Score: 
+"
+align = 1
+
+[node name="Button" type="Button" parent="Levels/GameOverPanel/VBoxContainer"]
+margin_top = 432.0
+margin_right = 829.0
+margin_bottom = 521.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 0.858824, 0.862745, 1, 1 )
+action_mode = 0
+text = "Play Again"
+
 [node name="sound_claps" type="AudioStreamPlayer" parent="Levels"]
 stream = ExtResource( 8 )
 
@@ -202,3 +247,5 @@ stream = ExtResource( 11 )
 
 [node name="sound_grand_finale" type="AudioStreamPlayer" parent="Levels"]
 stream = ExtResource( 12 )
+
+[connection signal="pressed" from="Levels/GameOverPanel/VBoxContainer/Button" to="Levels" method="_on_Button_restart_pressed"]

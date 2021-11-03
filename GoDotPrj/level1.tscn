@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://lama.gd" type="Script" id=1]
 [ext_resource path="res://lama.material" type="Material" id=2]
@@ -8,11 +8,12 @@
 [ext_resource path="res://terrain.tscn" type="PackedScene" id=6]
 [ext_resource path="res://level1.gd" type="Script" id=7]
 [ext_resource path="res://fence.tscn" type="PackedScene" id=8]
-[ext_resource path="res://sounds/caminandes_ani.ogg" type="AudioStream" id=9]
+[ext_resource path="res://sounds/gaminandes_background.ogg" type="AudioStream" id=9]
 [ext_resource path="res://sounds/gaminandes_shock.ogg" type="AudioStream" id=10]
 [ext_resource path="res://sounds/gaminandes_batida_1.ogg" type="AudioStream" id=11]
 [ext_resource path="res://sounds/gaminandes_snap.ogg" type="AudioStream" id=12]
 [ext_resource path="res://bush.tscn" type="PackedScene" id=13]
+[ext_resource path="res://sounds/booing.ogg" type="AudioStream" id=14]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.343831, 0.459965, 0.423207 )
@@ -235,6 +236,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.5103, 0, -0.89848 )
 
 [node name="CollisionShape" type="CollisionShape" parent="trackEnd" index="0"]
 shape = SubResource( 3 )
+
+[node name="snap_bad" type="AudioStreamPlayer" parent="." index="57"]
+stream = ExtResource( 14 )
 
 [connection signal="body_entered" from="trackLimit" to="." method="_on_trackLimit_entered"]
 [connection signal="body_exited" from="trackLimit" to="." method="_on_trackLimit_exited"]

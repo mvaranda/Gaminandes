@@ -52,7 +52,8 @@ const frases : Array = [
 	"You are one of a king",
 	"You have mastered it"
 ]
-
+onready var game_over_panel = get_node("GameOverPanel")
+onready var game_over_score = get_node("GameOverPanel/VBoxContainer/ScoreLabel") 
 onready var score_label = get_node("ScorePanelContainer/ScoreValue")
 onready var level_label = get_node("LevelPanelContainer/LevelValue")
 onready var end_level_node = get_node("EndLevelPanelContainer")
@@ -111,6 +112,8 @@ func process_end_level_signal():
 
 func process_game_over():
 	print("Game over")
+	game_over_panel.visible = true
+	game_over_score.text = "Score: " + str(score)
 	
 	
 func _ready():
@@ -155,8 +158,8 @@ func _input(event):
 		return
 		
 	if event is InputEventKey and event.pressed and event.scancode == KEY_D:
-		#emit_signal("key_signal", "key_debug", true, false)
-		process_debug_signal()
+		emit_signal("key_signal", "key_debug", true, false)
+		#process_debug_signal()
 		return
 
 ################ score functions ##############
@@ -212,3 +215,16 @@ func _process(delta):
 			state = ST_PLAY_LEVEL
 
 
+
+
+func _on_Button_restart_pressed():
+	score = 0
+	level = 1
+	lifes = NUM_INITIAL_LIFES
+	life_reward_counter = 0
+	state = ST_PLAY_LEVEL
+	update_lifes()
+	init_score()
+	emit_signal("set_level_signal", 0)
+	game_over_panel.visible = false
+	

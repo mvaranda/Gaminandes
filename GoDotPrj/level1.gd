@@ -13,7 +13,7 @@
 
 extends Spatial
 
-var play_song = false
+var play_song = true
 onready var song_caminandes = $mainAudioStreamPlayer
 var bush_array = []
 
@@ -41,6 +41,7 @@ onready var m1 = get_node(NODE_PATH_MOUNTAINS_1)
 onready var m2 = get_node(NODE_PATH_MOUNTAINS_2)
 
 onready var sound_snap = $snap
+onready var sound_snap_bad = $snap_bad
 
 func process_lama_position_signal(lama_pos):
 	var pos = (lama_pos + LAMA_INITIAL_X) * SPEED_LOWER_FACTOR
@@ -70,8 +71,13 @@ func process_snaped_signal():
 		sound_snap.play()
 		emit_signal("score_snap_signal", active_bush)
 		active_bush = -1
+	else:
+		sound_snap_bad.play()
 
 func process_set_level_signal(level):
+	if play_song:
+		song_caminandes.play()
+
 	var num_enable = 0
 	active_bush = -1
 	for i in range(NUM_BUSHES):
