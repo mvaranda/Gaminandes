@@ -42,17 +42,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftPanelContainer" type="HBoxContainer" parent="Levels"]
-margin_left = 4.96777
-margin_top = 5.41938
-margin_right = 792.968
-margin_bottom = 133.419
+[node name="settingsPanelContainer" type="HBoxContainer" parent="Levels"]
+margin_left = 8.91168
+margin_top = 10.3493
+margin_right = 136.912
+margin_bottom = 138.349
 rect_scale = Vector2( 0.506376, 0.480857 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="Levels/LeftPanelContainer"]
+[node name="Button" type="Button" parent="Levels/settingsPanelContainer"]
 margin_right = 128.0
 margin_bottom = 128.0
 custom_styles/normal = SubResource( 1 )
@@ -60,39 +60,48 @@ icon = ExtResource( 5 )
 flat = true
 align = 0
 
-[node name="LamaIcon_0" type="TextureRect" parent="Levels/LeftPanelContainer"]
+[node name="LamaPanelContainer" type="HBoxContainer" parent="Levels"]
+margin_left = 100.609
+margin_top = 9.36335
+margin_right = 888.609
+margin_bottom = 137.363
+rect_scale = Vector2( 0.506376, 0.480857 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LamaIcon_0" type="TextureRect" parent="Levels/LamaPanelContainer"]
+margin_right = 128.0
+margin_bottom = 128.0
+texture = ExtResource( 6 )
+
+[node name="LamaIcon_1" type="TextureRect" parent="Levels/LamaPanelContainer"]
 margin_left = 132.0
 margin_right = 260.0
 margin_bottom = 128.0
 texture = ExtResource( 6 )
 
-[node name="LamaIcon_1" type="TextureRect" parent="Levels/LeftPanelContainer"]
+[node name="LamaIcon_2" type="TextureRect" parent="Levels/LamaPanelContainer"]
 margin_left = 264.0
 margin_right = 392.0
 margin_bottom = 128.0
 texture = ExtResource( 6 )
 
-[node name="LamaIcon_2" type="TextureRect" parent="Levels/LeftPanelContainer"]
+[node name="LamaIcon_3" type="TextureRect" parent="Levels/LamaPanelContainer"]
 margin_left = 396.0
 margin_right = 524.0
 margin_bottom = 128.0
 texture = ExtResource( 6 )
 
-[node name="LamaIcon_3" type="TextureRect" parent="Levels/LeftPanelContainer"]
+[node name="LamaIcon_4" type="TextureRect" parent="Levels/LamaPanelContainer"]
 margin_left = 528.0
 margin_right = 656.0
 margin_bottom = 128.0
 texture = ExtResource( 6 )
 
-[node name="LamaIcon_4" type="TextureRect" parent="Levels/LeftPanelContainer"]
+[node name="LamaIcon_5" type="TextureRect" parent="Levels/LamaPanelContainer"]
 margin_left = 660.0
 margin_right = 788.0
-margin_bottom = 128.0
-texture = ExtResource( 6 )
-
-[node name="LamaIcon_5" type="TextureRect" parent="Levels/LeftPanelContainer"]
-margin_left = 792.0
-margin_right = 920.0
 margin_bottom = 128.0
 texture = ExtResource( 6 )
 

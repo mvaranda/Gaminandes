@@ -72,7 +72,7 @@ var lifes = NUM_INITIAL_LIFES
 var life_icons = []
 var life_reward_counter = 0
 const LIFE_REWARD_VAL = 3
-const LIFE_NODE_NAME_PREFIX = "LeftPanelContainer/LamaIcon_"
+const LIFE_NODE_NAME_PREFIX = "LamaPanelContainer/LamaIcon_"
 
 func timer_set(time):
 	timer_counter = 0.0
