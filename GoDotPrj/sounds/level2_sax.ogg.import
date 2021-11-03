@@ -11,5 +11,5 @@ dest_files=[ "res://.import/level2_sax.ogg-87c696d7ab29eacc6b5f143639641143.oggs
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0

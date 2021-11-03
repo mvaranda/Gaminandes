@@ -13,8 +13,25 @@
 
 extends Node
 
+# To simulate low FPS
+const USE_DELAY = false
+
+const NUM_LEVELS = 3
 const NUM_INITIAL_LIFES = 3
 const NUM_MAX_LIFES = 6
+
+const ST_PLAY_LEVEL = 0
+const ST_WAIT_NEW_LEVEL = 1
+const ST_WAIT_NEW_GAME = 2
+var state = ST_PLAY_LEVEL
+
+const WAIT_NEW_LEVEL = 2.0
+var 	timer_counter = 0.0
+var	timer_expire = 0.0
+
+var  is_action_pressed = false
+signal key_signal(key, pressed, shift)
+signal set_level_signal(level)
 
 const frases : Array = [
 	"Excellent",
@@ -41,6 +58,11 @@ onready var level_label = get_node("LevelPanelContainer/LevelValue")
 onready var end_level_node = get_node("EndLevelPanelContainer")
 onready var level_label_node = get_node("EndLevelPanelContainer/VBoxContainer/level")
 onready var motivation_label_node = get_node("EndLevelPanelContainer/VBoxContainer/MotivationFrase")
+onready var node_sound_banjo = $sound_banjo
+onready var node_sound_thanks = $sound_thanks
+onready var node_sound_sax = $sound_sax
+onready var node_sound_claps = $sound_claps
+onready var node_sound_grand_finale = $sound_grand_finale
 
 onready var lama_node = get_node("level1/lama")
 var score = 0
@@ -51,6 +73,16 @@ var life_reward_counter = 0
 const LIFE_REWARD_VAL = 3
 const LIFE_NODE_NAME_PREFIX = "LeftPanelContainer/LamaIcon_"
 
+func timer_set(time):
+	timer_counter = 0.0
+	timer_expire = time
+	
+func timer_update_and_check(delta):
+	timer_counter += delta
+	if timer_counter > timer_expire:
+		return true
+	return false
+
 func process_jump_reward ():
 	life_reward_counter += 1
 	if life_reward_counter >= LIFE_REWARD_VAL:
@@ -58,19 +90,29 @@ func process_jump_reward ():
 		  lifes += 1
 		  update_lifes()
 		life_reward_counter = 0
-		  
-# To simulate low FPS
-const USE_DELAY = false
-
-var  is_action_pressed = false
-signal key_signal(key, pressed, shift)
 
 func process_end_level_signal():
-	print("todo: show level or game over")
-	end_level_node.visible = true
-	level_label_node.text = "Level " + str(2) + " completed"
-	motivation_label_node.text = frases[randi() % frases.size()]
+	if level < NUM_LEVELS:
+		print("next level")
+		end_level_node.visible = true
+		level_label_node.text = "Level " + str(level) + " completed"
+		motivation_label_node.text = frases[randi() % frases.size()]
+		timer_set(WAIT_NEW_LEVEL)
+		state = ST_WAIT_NEW_LEVEL
+		emit_signal("set_level_signal", level)
+		if level == 1:
+			node_sound_sax.play()
+		elif level == 2:
+			node_sound_claps.play()
+		level += 1
+	else:
+		node_sound_grand_finale.play()
+		process_game_over()
 
+func process_game_over():
+	print("Game over")
+	
+	
 func _ready():
 	init_score()
 	$level1.connect("score_snap_signal", self, "process_score_snap_signal")
@@ -141,7 +183,8 @@ func process_score_jump(fence):
 
 func process_score_shock():
 	if lifes == 0:
-		print("Game Over")
+		node_sound_banjo.play()
+		process_game_over()
 		return
 	lifes -= 1
 	update_lifes()
@@ -161,5 +204,10 @@ func delay():
 func _process(delta):
 	if USE_DELAY == true:
 		delay()
+	if state == ST_WAIT_NEW_LEVEL:
+		if timer_update_and_check(delta) == true:
+			print("timeout")
+			end_level_node.visible = false
+			state = ST_PLAY_LEVEL
 
 

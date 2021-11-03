@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://fonts/font_38.tres" type="DynamicFont" id=1]
 [ext_resource path="res://levels.gd" type="Script" id=2]
@@ -7,6 +7,11 @@
 [ext_resource path="res://sprites/singles/setup_icon.png" type="Texture" id=5]
 [ext_resource path="res://textures/lama_icon_128.png" type="Texture" id=6]
 [ext_resource path="res://fonts/font_64.tres" type="DynamicFont" id=7]
+[ext_resource path="res://sounds/claps.ogg" type="AudioStream" id=8]
+[ext_resource path="res://sounds/game_over_banjo.ogg" type="AudioStream" id=9]
+[ext_resource path="res://sounds/level2_sax.ogg" type="AudioStream" id=10]
+[ext_resource path="res://sounds/thanks.ogg" type="AudioStream" id=11]
+[ext_resource path="res://sounds/gaminandes_final.ogg" type="AudioStream" id=12]
 
 [sub_resource type="StyleBoxTexture" id=1]
 
@@ -182,3 +187,18 @@ align = 1
 margin_top = 432.0
 margin_right = 829.0
 margin_bottom = 452.0
+
+[node name="sound_claps" type="AudioStreamPlayer" parent="Levels"]
+stream = ExtResource( 8 )
+
+[node name="sound_banjo" type="AudioStreamPlayer" parent="Levels"]
+stream = ExtResource( 9 )
+
+[node name="sound_sax" type="AudioStreamPlayer" parent="Levels"]
+stream = ExtResource( 10 )
+
+[node name="sound_thanks" type="AudioStreamPlayer" parent="Levels"]
+stream = ExtResource( 11 )
+
+[node name="sound_grand_finale" type="AudioStreamPlayer" parent="Levels"]
+stream = ExtResource( 12 )

@@ -72,6 +72,13 @@ var patter_idx = 0
 var 	timer_counter = 0.0
 var	timer_expire = 0.0
 
+func process_set_level_signal(_level):
+	state = ST_SHOWING_LIGHT_OFF
+	level = _level
+	patter = 0
+	patter_idx = 0
+	changeMaterial(LIGHT_OFF_IDX)
+
 func set_flash(level_val, pattern_val):
 	#print("set_flash: level = " + str(level_val) + ", pat = " + str(pattern_val))
 	state = ST_SHOWING_LIGHT_OFF
