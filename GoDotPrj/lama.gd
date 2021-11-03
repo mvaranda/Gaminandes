@@ -111,6 +111,10 @@ var snap_signal_sent = false
 # Get the material in slot 0
 onready var material_one = get_surface_material(0)
 
+func process_debug_key():
+	pass
+	#emit_signal("end_")
+	
 func load_append_img(img_array, name):
 	var img = load(name)
 	if img == null:
@@ -175,6 +179,8 @@ func process_key(val, pressed, shift):
 			start_shock()
 		elif val ==  "key_collide":
 			start_pull_back()
+		elif val ==  "key_debug":
+			process_debug_key()
 		else:
 			print("unhanlded key")
 

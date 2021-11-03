@@ -13,7 +13,7 @@
 
 extends Spatial
 
-var play_song = true
+var play_song = false
 onready var song_caminandes = $mainAudioStreamPlayer
 var bush_array = []
 

@@ -38,6 +38,10 @@ const frases : Array = [
 
 onready var score_label = get_node("ScorePanelContainer/ScoreValue")
 onready var level_label = get_node("LevelPanelContainer/LevelValue")
+onready var end_level_node = get_node("EndLevelPanelContainer")
+onready var level_label_node = get_node("EndLevelPanelContainer/VBoxContainer/level")
+onready var motivation_label_node = get_node("EndLevelPanelContainer/VBoxContainer/MotivationFrase")
+
 onready var lama_node = get_node("level1/lama")
 var score = 0
 var level = 1
@@ -63,6 +67,9 @@ signal key_signal(key, pressed, shift)
 
 func process_end_level_signal():
 	print("todo: show level or game over")
+	end_level_node.visible = true
+	level_label_node.text = "Level " + str(2) + " completed"
+	motivation_label_node.text = frases[randi() % frases.size()]
 
 func _ready():
 	init_score()
@@ -89,6 +96,9 @@ func check_key(event, key, sig):
 		return true
 	return false
 
+func process_debug_signal():
+	process_end_level_signal()
+	
 func _input(event):
 	if check_key(event, "ui_right", "key_right"): return
 	if check_key(event, "ui_left", "key_left"): return
@@ -100,6 +110,11 @@ func _input(event):
 		return
 	if event is InputEventKey and event.pressed and event.scancode == KEY_C:
 		emit_signal("key_signal", "key_collide", true, false)
+		return
+		
+	if event is InputEventKey and event.pressed and event.scancode == KEY_D:
+		#emit_signal("key_signal", "key_debug", true, false)
+		process_debug_signal()
 		return
 
 ################ score functions ##############
