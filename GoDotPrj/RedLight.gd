@@ -15,6 +15,8 @@ extends MeshInstance
 
 var light_is_on = false
 
+const NODE_PATH_LEVELS = "/root/RootNode/Levels"
+
 const centerMaterials : Array = [
 	preload("res://light_off.material"),
 	preload("res://light_on.material"),
@@ -75,8 +77,10 @@ var	timer_expire = 0.0
 func process_set_level_signal(_level):
 	state = ST_SHOWING_LIGHT_OFF
 	level = _level
-	patter = 0
+	#patter = 0
 	patter_idx = 0
+	timer_counter = 0.0
+	timer_expire = 0.0
 	changeMaterial(LIGHT_OFF_IDX)
 
 func set_flash(level_val, pattern_val):
@@ -100,10 +104,12 @@ func timer_update_and_check(delta):
 	
 func changeMaterial(mat_idx):
 	set_surface_material(0, centerMaterials[mat_idx])
-	
+
 func _ready():
+	get_node(NODE_PATH_LEVELS).connect("set_level_signal", self, "process_set_level_signal")
 	timer_set(2)
 	state = ST_SHOWING_LIGHT_OFF
+	
 
 func _process(delta):
 	# 	flashLight[level][patter][patter_idx]

@@ -195,6 +195,7 @@ func update_lifes():
 			life_icons[i].visible = true
 		else:
 			life_icons[i].visible = false
+			
 ############### Slow Down Test ############
 func delay():
 	var a = 0

@@ -21,6 +21,7 @@ signal score_snap_signal(bush)
 signal limit_signal(is_enter)
 signal end_level_signal()
 
+const NODE_PATH_LEVELS = "/root/RootNode/Levels"
 const NODE_PATH_LAMA = "/root/RootNode/Levels/level1/lama"
 const NODE_PATH_MOUNTAINS_0 = "/root/RootNode/Levels/level1/mountains_closer_0"
 const NODE_PATH_MOUNTAINS_1 = "/root/RootNode/Levels/level1/mountains_closer_1"
@@ -69,10 +70,21 @@ func process_snaped_signal():
 		sound_snap.play()
 		emit_signal("score_snap_signal", active_bush)
 		active_bush = -1
-		
+
+func process_set_level_signal(level):
+	var num_enable = 0
+	active_bush = -1
+	for i in range(NUM_BUSHES):
+		var enabled
+		enabled = rand_level_1()
+		bush_array[i].enable(enabled)
+		if enabled:
+			num_enable += 1
+
 func _ready():
 	var num_enable = 0
 	randomize()
+	get_node(NODE_PATH_LEVELS).connect("set_level_signal", self, "process_set_level_signal")
 	var n = get_node(NODE_PATH_LAMA)
 	n.connect("lama_position_signal", self, "process_lama_position_signal");
 	n.connect("snaped_signal", self, "process_snaped_signal")

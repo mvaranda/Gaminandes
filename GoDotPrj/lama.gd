@@ -13,6 +13,7 @@
 
 extends MeshInstance
 
+const LAMA_INITIAL_POSITION = -1.883
 const NODE_PATH_LEVELS = "/root/RootNode/Levels"
 const NODE_PATH_LEVEL1 = "/root/RootNode/Levels/level1"
 
@@ -237,6 +238,20 @@ func process_end_level_signal():
 	print("end level")
 	state = ST_WAIT_RESTART
 	
+func process_set_level_signal(level):
+	global_transform.origin.x = LAMA_INITIAL_POSITION
+	active_fence = 0
+	is_inside_fence = false
+	is_inside_fence_from_left = false
+	is_a_good_jump = false
+	was_a_good_jump_on_start = false
+	acc_delta = 0.0
+	move = MOV_NONE
+	state = ST_FREE_MOVING
+	timer_count = 0.0
+	track_limit = false
+	snap_signal_sent = false
+	
 func process_limit_signal(is_enter):
 	print("track limit")
 	track_limit = is_enter
@@ -245,6 +260,7 @@ func process_limit_signal(is_enter):
 func _ready():
 	var n = get_node(NODE_PATH_LEVELS)
 	n.connect("key_signal", self, "process_key");
+	n.connect("set_level_signal", self, "process_set_level_signal")
 	
 	n = get_node(NODE_PATH_LEVEL1)	
 	n.connect("limit_signal", self, "process_limit_signal");
