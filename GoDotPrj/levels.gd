@@ -16,6 +16,9 @@ extends Node
 # To simulate low FPS
 const USE_DELAY = false
 
+var mute_all = false
+var mute_background = false
+
 const NUM_LEVELS = 3
 const NUM_INITIAL_LIFES = 3
 const NUM_MAX_LIFES = 6
@@ -102,12 +105,12 @@ func process_end_level_signal():
 		state = ST_WAIT_NEW_LEVEL
 		#emit_signal("set_level_signal", level)
 		if level == 1:
-			node_sound_sax.play()
+			g_play_sound(node_sound_sax, false)
 		elif level == 2:
-			node_sound_claps.play()
+			g_play_sound(node_sound_claps, false)
 		level += 1
 	else:
-		node_sound_grand_finale.play()
+		g_play_sound(node_sound_grand_finale, false)
 		process_game_over()
 
 func process_game_over():
@@ -186,7 +189,7 @@ func process_score_jump(fence):
 
 func process_score_shock():
 	if lifes == 0:
-		node_sound_banjo.play()
+		g_play_sound(node_sound_banjo, false)
 		process_game_over()
 		$level1/mainAudioStreamPlayer.stop()
 		return
@@ -217,8 +220,12 @@ func _process(delta):
 			level_label.text = str(level)
 			state = ST_PLAY_LEVEL
 
-
-
+func g_play_sound(stream, background):
+	if mute_all == true:
+		return
+	if background and mute_background:
+		return
+	stream.play()
 
 func _on_Button_restart_pressed():
 	score = 0
@@ -230,4 +237,16 @@ func _on_Button_restart_pressed():
 	init_score()
 	emit_signal("set_level_signal", 0)
 	game_over_panel.visible = false
+
+
+func _on_setup_button_pressed_():
+	$level1/mainAudioStreamPlayer.stop()
+	$SetupPanel.visible = true
+
+func _on_setup_close_button_pressed():
+
+	$SetupPanel.visible = false
+	mute_all = $SetupPanel/VBoxContainer/CheckBox_mute_all.is_pressed()
+	mute_background = $SetupPanel/VBoxContainer/CheckBox_mute_song.is_pressed()
 	
+	g_play_sound($level1/mainAudioStreamPlayer, true)

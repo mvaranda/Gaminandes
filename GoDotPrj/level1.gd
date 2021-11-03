@@ -13,7 +13,6 @@
 
 extends Spatial
 
-var play_song = true
 onready var song_caminandes = $mainAudioStreamPlayer
 var bush_array = []
 
@@ -28,6 +27,7 @@ const NODE_PATH_MOUNTAINS_1 = "/root/RootNode/Levels/level1/mountains_closer_1"
 const NODE_PATH_MOUNTAINS_2 = "/root/RootNode/Levels/level1/mountains_closer_2"
 
 var active_bush = -1
+var node_levels
 
 const NUM_BUSHES = 38
 
@@ -68,15 +68,14 @@ func rand_level_1():
 func process_snaped_signal():
 	if active_bush >= 0:
 		bush_array[active_bush].enable(false)
-		sound_snap.play()
+		node_levels.g_play_sound(sound_snap, false)
 		emit_signal("score_snap_signal", active_bush)
 		active_bush = -1
 	else:
-		sound_snap_bad.play()
+		node_levels.g_play_sound(sound_snap_bad, false)
 
 func process_set_level_signal(level):
-	if play_song:
-		song_caminandes.play()
+	node_levels.g_play_sound(song_caminandes, true)
 
 	var num_enable = 0
 	active_bush = -1
@@ -90,7 +89,8 @@ func process_set_level_signal(level):
 func _ready():
 	var num_enable = 0
 	randomize()
-	get_node(NODE_PATH_LEVELS).connect("set_level_signal", self, "process_set_level_signal")
+	node_levels = get_node(NODE_PATH_LEVELS)
+	node_levels.connect("set_level_signal", self, "process_set_level_signal")
 	var n = get_node(NODE_PATH_LAMA)
 	n.connect("lama_position_signal", self, "process_lama_position_signal");
 	n.connect("snaped_signal", self, "process_snaped_signal")
@@ -109,9 +109,7 @@ func _ready():
 		n.connect("bush_location_signal", self, "process_bush_location_signal");
 	print("num bushes = " + str(num_enable))
 	
-	if play_song:
-		song_caminandes.play()
-	#$mainAudioStreamPlayer.set_stream_paused(true)
+	node_levels.g_play_sound(song_caminandes, true)
 
 
 func _on_trackLimit_entered(body):
@@ -126,5 +124,4 @@ func _on_trackLimit_exited(body):
 
 func _on_trackEnd_entered(body):
 	emit_signal ("end_level_signal")
-	if play_song:
-		song_caminandes.stop()
+	song_caminandes.stop()

@@ -147,12 +147,12 @@ func load_images():
 		load_append_img(efall_images, name)
 
 func start_shock():
-	sound_shock.play()
+	node_levels.g_play_sound(sound_shock, false)
 	reset_frame_control()
 	state = ST_SHOCKING
 	
 func start_pull_back():
-	sound_batida.play()
+	node_levels.g_play_sound(sound_batida, false)
 	reset_frame_control()
 	state = ST_PULLING_BACK
 
@@ -253,15 +253,17 @@ func process_set_level_signal(level):
 	track_limit = false
 	snap_signal_sent = false
 	
+var node_levels
 func process_limit_signal(is_enter):
 	print("track limit")
 	track_limit = is_enter
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var n = get_node(NODE_PATH_LEVELS)
-	n.connect("key_signal", self, "process_key");
-	n.connect("set_level_signal", self, "process_set_level_signal")
+	var n
+	node_levels = get_node(NODE_PATH_LEVELS)
+	node_levels.connect("key_signal", self, "process_key");
+	node_levels.connect("set_level_signal", self, "process_set_level_signal")
 	
 	n = get_node(NODE_PATH_LEVEL1)	
 	n.connect("limit_signal", self, "process_limit_signal");

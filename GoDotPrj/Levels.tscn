@@ -257,4 +257,63 @@ stream = ExtResource( 11 )
 [node name="sound_grand_finale" type="AudioStreamPlayer" parent="Levels"]
 stream = ExtResource( 12 )
 
+[node name="SetupPanel" type="PanelContainer" parent="Levels"]
+visible = false
+modulate = Color( 0.0156863, 0.952941, 1, 0.686275 )
+margin_left = 377.0
+margin_top = 86.0
+margin_right = 935.0
+margin_bottom = 699.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Levels/SetupPanel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 551.0
+margin_bottom = 606.0
+
+[node name="Label2" type="Label" parent="Levels/SetupPanel/VBoxContainer"]
+margin_right = 544.0
+margin_bottom = 169.0
+custom_fonts/font = ExtResource( 7 )
+text = "Gaminandes
+"
+align = 1
+
+[node name="Label" type="Label" parent="Levels/SetupPanel/VBoxContainer"]
+margin_top = 173.0
+margin_right = 544.0
+margin_bottom = 382.0
+custom_fonts/font = ExtResource( 1 )
+text = "Copyrights: Varanda Labs
+www.varanda.ca
+
+"
+align = 1
+
+[node name="CheckBox_mute_song" type="CheckBox" parent="Levels/SetupPanel/VBoxContainer"]
+margin_top = 386.0
+margin_right = 544.0
+margin_bottom = 444.0
+custom_fonts/font = ExtResource( 1 )
+text = "Mute song"
+
+[node name="CheckBox_mute_all" type="CheckBox" parent="Levels/SetupPanel/VBoxContainer"]
+margin_top = 448.0
+margin_right = 544.0
+margin_bottom = 506.0
+custom_fonts/font = ExtResource( 1 )
+text = "Mute all"
+
+[node name="Button" type="Button" parent="Levels/SetupPanel/VBoxContainer"]
+margin_top = 510.0
+margin_right = 544.0
+margin_bottom = 599.0
+custom_fonts/font = ExtResource( 7 )
+text = "Close"
+
+[connection signal="pressed" from="Levels/settingsPanelContainer/Button" to="Levels" method="_on_setup_button_pressed_"]
 [connection signal="pressed" from="Levels/GameOverPanel/VBoxContainer/Button" to="Levels" method="_on_Button_restart_pressed"]
+[connection signal="pressed" from="Levels/SetupPanel/VBoxContainer/Button" to="Levels" method="_on_setup_close_button_pressed"]
