@@ -152,9 +152,9 @@ func process_debug_signal():
 
 var pressed_x = -1
 var pressed_y = -1
-const X_THRESHOULD = 30
-const X_FAST_THRESHOULD = 60
-const Y_THRESHOULD = 10
+const X_THRESHOULD = 60
+const X_FAST_THRESHOULD = 120
+const Y_THRESHOULD = 40
 const MOUSE_POS_NONE = 0
 const MOUSE_POS_UPPER = 1
 const MOUSE_POS_UPPER_MORE = 2
@@ -164,6 +164,7 @@ const MOUSE_POS_NEGATIVE_UPPER_MORE = 5
 const MOUSE_POS_NEGATIVE_LOWER = 6
 var x_status = MOUSE_POS_NONE
 var y_status = MOUSE_POS_NONE
+var mouse_shift = false
 #var last_key_emulation "key_none"
 
 func process_mouse(event):
@@ -184,60 +185,107 @@ func process_mouse(event):
 	if event is InputEventMouseMotion:
 		if pressed_x < 0:
 			return
+			
+		process_mouse_x(event)
+		process_mouse_y(event)
+
+func process_mouse_x(event):
 		
-		######## process X positive
-		if x_status == MOUSE_POS_NONE:
-			if (event.position.x - pressed_x) > X_THRESHOULD:
-				x_status = MOUSE_POS_UPPER
-				emit_signal("key_signal", "key_right", true, false)
-				return
-			if (event.position.x - pressed_x) > X_FAST_THRESHOULD:
-				x_status = MOUSE_POS_UPPER_MORE
-				emit_signal("key_signal", "key_right", true, true)
-				return	
+	######## process X positive
+	if x_status == MOUSE_POS_NONE:
+		if (event.position.x - pressed_x) > X_THRESHOULD:
+			x_status = MOUSE_POS_UPPER
+			mouse_shift = false
+			emit_signal("key_signal", "key_right", true, mouse_shift)
+			return
+		if (event.position.x - pressed_x) > X_FAST_THRESHOULD:
+			mouse_shift = true
+			x_status = MOUSE_POS_UPPER_MORE
+			emit_signal("key_signal", "key_right", true, mouse_shift)
+			return	
 
-			if (pressed_x - event.position.x) > X_THRESHOULD:
-				x_status = MOUSE_POS_NEGATIVE_UPPER
-				emit_signal("key_signal", "key_left", true, false)
-				return
-			if (pressed_x - event.position.x) > X_FAST_THRESHOULD:
-				x_status = MOUSE_POS_NEGATIVE_UPPER_MORE
-				emit_signal("key_signal", "key_left", true, true)
-				return
-				
-		if x_status == MOUSE_POS_UPPER:
-			if (event.position.x - pressed_x) <= X_THRESHOULD:
-				x_status = MOUSE_POS_NONE
-				emit_signal("key_signal", "key_right", false, false)
-				return			
-			if (event.position.x - pressed_x) > X_FAST_THRESHOULD:
-				x_status = MOUSE_POS_UPPER_MORE
-				emit_signal("key_signal", "key_right", true, true)
-				return	
-				
-		if x_status == MOUSE_POS_UPPER_MORE:
-			if (event.position.x - pressed_x) <= X_FAST_THRESHOULD:
-				x_status = MOUSE_POS_UPPER
-				emit_signal("key_signal", "key_right", true, false)
-				return			
+		if (pressed_x - event.position.x) > X_THRESHOULD:
+			x_status = MOUSE_POS_NEGATIVE_UPPER
+			mouse_shift = false
+			emit_signal("key_signal", "key_left", true, mouse_shift)
+			return
+		if (pressed_x - event.position.x) > X_FAST_THRESHOULD:
+			x_status = MOUSE_POS_NEGATIVE_UPPER_MORE
+			mouse_shift = true
+			emit_signal("key_signal", "key_left", true, mouse_shift)
+			return
+			
+	if x_status == MOUSE_POS_UPPER:
+		if (event.position.x - pressed_x) <= X_THRESHOULD:
+			x_status = MOUSE_POS_NONE
+			mouse_shift = false
+			emit_signal("key_signal", "key_right", false, mouse_shift)
+			return			
+		if (event.position.x - pressed_x) > X_FAST_THRESHOULD:
+			x_status = MOUSE_POS_UPPER_MORE
+			mouse_shift = true
+			emit_signal("key_signal", "key_right", true, mouse_shift)
+			return	
+			
+	if x_status == MOUSE_POS_UPPER_MORE:
+		if (event.position.x - pressed_x) <= X_FAST_THRESHOULD:
+			x_status = MOUSE_POS_UPPER
+			mouse_shift = false
+			emit_signal("key_signal", "key_right", true, mouse_shift)
+			return			
 
-		######## process X negative
-				
-		if x_status == MOUSE_POS_NEGATIVE_UPPER:
-			if (pressed_x - event.position.x) <= MOUSE_POS_UPPER:
-				x_status = MOUSE_POS_NONE
-				emit_signal("key_signal", "key_left", false, false)
-				return			
-			if (pressed_x - event.position.x) > X_FAST_THRESHOULD:
-				x_status = MOUSE_POS_NEGATIVE_UPPER_MORE
-				emit_signal("key_signal", "key_left", true, true)
-				return	
-				
-		if x_status == MOUSE_POS_NEGATIVE_UPPER_MORE:
-			if (pressed_x - event.position.x) <= X_FAST_THRESHOULD:
-				x_status = MOUSE_POS_NEGATIVE_UPPER
-				emit_signal("key_signal", "key_left", true, false)
-				return
+	######## process X negative
+			
+	if x_status == MOUSE_POS_NEGATIVE_UPPER:
+		if (pressed_x - event.position.x) <= MOUSE_POS_UPPER:
+			x_status = MOUSE_POS_NONE
+			mouse_shift = false
+			emit_signal("key_signal", "key_left", false, mouse_shift)
+			return			
+		if (pressed_x - event.position.x) > X_FAST_THRESHOULD:
+			x_status = MOUSE_POS_NEGATIVE_UPPER_MORE
+			mouse_shift = true
+			emit_signal("key_signal", "key_left", true, mouse_shift)
+			return	
+			
+	if x_status == MOUSE_POS_NEGATIVE_UPPER_MORE:
+		if (pressed_x - event.position.x) <= X_FAST_THRESHOULD:
+			x_status = MOUSE_POS_NEGATIVE_UPPER
+			mouse_shift = false
+			emit_signal("key_signal", "key_left", true, mouse_shift)
+			return
+			
+func process_mouse_y(event):
+		
+	######## process Y positive
+	if y_status == MOUSE_POS_NONE:
+		if (pressed_y - event.position.y) > Y_THRESHOULD:
+			y_status= MOUSE_POS_UPPER
+			mouse_shift = false
+			emit_signal("key_signal", "key_up", true, mouse_shift)
+			return	
+
+		if (event.position.y - pressed_y) > Y_THRESHOULD:
+			y_status = MOUSE_POS_NEGATIVE_UPPER
+			mouse_shift = false
+			emit_signal("key_signal", "key_down", true, mouse_shift)
+			return
+			
+	if y_status == MOUSE_POS_UPPER:
+		if (pressed_y - event.position.y) <= Y_THRESHOULD:
+			y_status = MOUSE_POS_NONE
+			mouse_shift = false
+			emit_signal("key_signal", "key_up", false, mouse_shift)
+			return			
+
+	######## process Y negative
+			
+	if y_status == MOUSE_POS_NEGATIVE_UPPER:
+		if (event.position.y - pressed_y) <= MOUSE_POS_UPPER:
+			y_status = MOUSE_POS_NONE
+			mouse_shift = false
+			emit_signal("key_signal", "key_down", false, mouse_shift)
+			return			
 				
 func _input(event):
 	if event is InputEventMouseButton or event is InputEventMouseMotion:
