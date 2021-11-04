@@ -13,18 +13,21 @@
 
 extends MeshInstance
 
-const LAMA_INITIAL_POSITION = -1.883
-const NODE_PATH_LEVELS = "/root/RootNode/Levels"
-const NODE_PATH_LEVEL1 = "/root/RootNode/Levels/level1"
-
 signal lama_position_signal(pos)
 signal snaped_signal()
 signal score_jump(active_fence)
 signal score_shock()
 
+const LAMA_INITIAL_POSITION = -1.883
+const NODE_PATH_LEVELS = "/root/RootNode/Levels"
+const NODE_PATH_LEVEL1 = "/root/RootNode/Levels/level1"
+
 const FENCE_NODE_PATHS_PREFIX = "/root/RootNode/Levels/level1/fence_"
 const RED_LIGHT_NODE_NAME = "/red_light"
 const NUM_FENCES = 7
+
+var node_levels
+var current_frame = 0
 
 var fast_walk = false
 var fence_nodes_array = []
@@ -257,7 +260,6 @@ func process_set_level_signal(level):
 	track_limit = false
 	snap_signal_sent = false
 	
-var node_levels
 func process_limit_signal(is_enter):
 	print("track limit")
 	track_limit = is_enter
@@ -310,7 +312,6 @@ func get_next_frame_back_idx(delta, num_frames, speed):
 		idx = idx % num_frames
 	return num_frames - idx
 	
-var current_frame = 0
 func move_fwd(delta, imgs, fps, rollover):
 	var idx = get_next_frame_fwd_idx(delta, imgs.size(), fps, rollover)
 	material_one.albedo_texture = imgs[idx]

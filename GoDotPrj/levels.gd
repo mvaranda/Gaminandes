@@ -13,12 +13,11 @@
 
 extends Node
 
+signal key_signal(key, pressed, shift)
+signal set_level_signal(level)
+
 # To simulate low FPS
 const USE_DELAY = false
-
-var mute_all = false
-var mute_background = true
-
 const NUM_LEVELS = 3
 const NUM_INITIAL_LIFES = 3
 const NUM_MAX_LIFES = 6
@@ -26,15 +25,26 @@ const NUM_MAX_LIFES = 6
 const ST_PLAY_LEVEL = 0
 const ST_WAIT_NEW_LEVEL = 1
 const ST_WAIT_NEW_GAME = 2
-var state = ST_PLAY_LEVEL
+
+const X_THRESHOULD = 60
+const X_FAST_THRESHOULD = 120
+const Y_THRESHOULD = 40
+const MOUSE_POS_NONE = 0
+const MOUSE_POS_UPPER = 1
+const MOUSE_POS_UPPER_MORE = 2
+const MOUSE_POS_LOWER = 3
+const MOUSE_POS_NEGATIVE_UPPER = 4
+const MOUSE_POS_NEGATIVE_UPPER_MORE = 5
+const MOUSE_POS_NEGATIVE_LOWER = 6
+
+const POINTS_FENCE = 100
+const POINTS_FENCE_MULTIPLIER = 10
+const POINTS_SNAP = 10
+const BUSH_COUNTER_INCREMENT = 5
 
 const WAIT_NEW_LEVEL = 2.0
-var 	timer_counter = 0.0
-var	timer_expire = 0.0
-
-var  is_action_pressed = false
-signal key_signal(key, pressed, shift)
-signal set_level_signal(level)
+const LIFE_REWARD_VAL = 3
+const LIFE_NODE_NAME_PREFIX = "LamaPanelContainer/LamaIcon_"
 
 const frases : Array = [
 	"Excellent",
@@ -55,6 +65,30 @@ const frases : Array = [
 	"You are one of a king",
 	"You have mastered it"
 ]
+
+var mute_all = false
+var mute_background = false
+
+var state = ST_PLAY_LEVEL
+
+var pressed_x = -1
+var pressed_y = -1
+
+var x_status = MOUSE_POS_NONE
+var y_status = MOUSE_POS_NONE
+var mouse_shift = false
+
+var bush_counter = 0
+
+var 	timer_counter = 0.0
+var	timer_expire = 0.0
+
+var show_fps = false
+var shift = false
+
+var  is_action_pressed = false
+
+
 onready var game_over_panel = get_node("GameOverPanel")
 onready var game_over_score = get_node("GameOverPanel/VBoxContainer/ScoreLabel") 
 onready var score_label = get_node("ScorePanelContainer/ScoreValue")
@@ -67,15 +101,13 @@ onready var node_sound_thanks = $sound_thanks
 onready var node_sound_sax = $sound_sax
 onready var node_sound_claps = $sound_claps
 onready var node_sound_grand_finale = $sound_grand_finale
-
 onready var lama_node = get_node("level1/lama")
+
 var score = 0
 var level = 1
 var lifes = NUM_INITIAL_LIFES
 var life_icons = []
 var life_reward_counter = 0
-const LIFE_REWARD_VAL = 3
-const LIFE_NODE_NAME_PREFIX = "LamaPanelContainer/LamaIcon_"
 
 func timer_set(time):
 	timer_counter = 0.0
@@ -129,7 +161,6 @@ func _ready():
 		life_icons.append( get_node(LIFE_NODE_NAME_PREFIX + str(i)) )
 	update_lifes()
 
-var shift = false
 func check_key(event, key, sig):
 	if event.is_action_pressed(key):
 		if is_action_pressed == false:
@@ -150,22 +181,7 @@ func check_key(event, key, sig):
 func process_debug_signal():
 	process_end_level_signal()
 
-var pressed_x = -1
-var pressed_y = -1
-const X_THRESHOULD = 60
-const X_FAST_THRESHOULD = 120
-const Y_THRESHOULD = 40
-const MOUSE_POS_NONE = 0
-const MOUSE_POS_UPPER = 1
-const MOUSE_POS_UPPER_MORE = 2
-const MOUSE_POS_LOWER = 3
-const MOUSE_POS_NEGATIVE_UPPER = 4
-const MOUSE_POS_NEGATIVE_UPPER_MORE = 5
-const MOUSE_POS_NEGATIVE_LOWER = 6
-var x_status = MOUSE_POS_NONE
-var y_status = MOUSE_POS_NONE
-var mouse_shift = false
-#var last_key_emulation "key_none"
+
 
 func process_mouse(event):
 	if event is InputEventMouseButton:
@@ -311,26 +327,21 @@ func _input(event):
 	if check_key(event, "ui_left", "key_left"): return
 	if check_key(event, "ui_up", "key_up"): return
 	if check_key(event, "ui_down", "key_down"): return
-	
-	if event is InputEventKey and event.pressed and event.scancode == KEY_S:
-		emit_signal("key_signal", "key_shock", true, false)
-		return
-	if event is InputEventKey and event.pressed and event.scancode == KEY_C:
-		emit_signal("key_signal", "key_collide", true, false)
-		return
-		
-	if event is InputEventKey and event.pressed and event.scancode == KEY_D:
-		emit_signal("key_signal", "key_debug", true, false)
-		#process_debug_signal()
-		return
+
+# Debug keys
+#	if event is InputEventKey and event.pressed and event.scancode == KEY_S:
+#		emit_signal("key_signal", "key_shock", true, false)
+#		return
+#	if event is InputEventKey and event.pressed and event.scancode == KEY_C:
+#		emit_signal("key_signal", "key_collide", true, false)
+#		return
+#
+#	if event is InputEventKey and event.pressed and event.scancode == KEY_D:
+#		emit_signal("key_signal", "key_debug", true, false)
+#		#process_debug_signal()
+#		return
 
 ################ score functions ##############
-const POINTS_FENCE = 100
-const POINTS_FENCE_MULTIPLIER = 10
-const POINTS_SNAP = 10
-const BUSH_COUNTER_INCREMENT = 5
-
-var bush_counter = 0
 
 func init_score():
 	score_label.text = str(score)
@@ -407,5 +418,6 @@ func _on_setup_close_button_pressed():
 	$SetupPanel.visible = false
 	mute_all = $SetupPanel/VBoxContainer/CheckBox_mute_all.is_pressed()
 	mute_background = $SetupPanel/VBoxContainer/CheckBox_mute_song.is_pressed()
+	$DebugInfoContainer.visible = $SetupPanel/VBoxContainer/CheckBox_show_fps.is_pressed()
 	
 	g_play_sound($level1/mainAudioStreamPlayer, true)

@@ -23,6 +23,7 @@ script = ExtResource( 2 )
 [node name="level1" parent="Levels" instance=ExtResource( 4 )]
 
 [node name="DebugInfoContainer" type="HBoxContainer" parent="Levels"]
+visible = false
 margin_left = 26.1378
 margin_top = 731.857
 margin_right = 342.138
@@ -35,7 +36,7 @@ __meta__ = {
 margin_right = 69.0
 margin_bottom = 50.0
 custom_fonts/font = ExtResource( 1 )
-custom_colors/font_color = Color( 0.211765, 0.109804, 0.00392157, 1 )
+custom_colors/font_color = Color( 0.352941, 0.301961, 0.25098, 1 )
 text = "FPS"
 script = ExtResource( 3 )
 __meta__ = {
@@ -306,6 +307,13 @@ margin_right = 544.0
 margin_bottom = 506.0
 custom_fonts/font = ExtResource( 1 )
 text = "Mute all"
+
+[node name="CheckBox_show_fps" type="CheckBox" parent="Levels/SetupPanel/VBoxContainer"]
+margin_top = 448.0
+margin_right = 544.0
+margin_bottom = 506.0
+custom_fonts/font = ExtResource( 1 )
+text = "Show performance"
 
 [node name="Button" type="Button" parent="Levels/SetupPanel/VBoxContainer"]
 margin_top = 510.0

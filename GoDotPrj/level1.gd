@@ -13,9 +13,6 @@
 
 extends Spatial
 
-onready var song_caminandes = $mainAudioStreamPlayer
-var bush_array = []
-
 signal score_snap_signal(bush)
 signal limit_signal(is_enter)
 signal end_level_signal()
@@ -26,15 +23,17 @@ const NODE_PATH_MOUNTAINS_0 = "/root/RootNode/Levels/level1/mountains_closer_0"
 const NODE_PATH_MOUNTAINS_1 = "/root/RootNode/Levels/level1/mountains_closer_1"
 const NODE_PATH_MOUNTAINS_2 = "/root/RootNode/Levels/level1/mountains_closer_2"
 
-var active_bush = -1
-var node_levels
-
 const NUM_BUSHES = 38
-
 const LAMA_INITIAL_X = 1.883
 const SPEED_LOWER_FACTOR = 0.6
 const M1_INITIAL_POS = 46
 const M2_INITIAL_POS = 93
+
+onready var song_caminandes = $mainAudioStreamPlayer
+var bush_array = []
+
+var active_bush = -1
+var node_levels
 
 onready var m0 = get_node(NODE_PATH_MOUNTAINS_0)
 onready var m1 = get_node(NODE_PATH_MOUNTAINS_1)
