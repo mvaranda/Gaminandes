@@ -152,24 +152,99 @@ func process_debug_signal():
 
 var pressed_x = -1
 var pressed_y = -1
+const X_THRESHOULD = 30
+const X_FAST_THRESHOULD = 60
+const Y_THRESHOULD = 10
+const MOUSE_POS_NONE = 0
+const MOUSE_POS_UPPER = 1
+const MOUSE_POS_UPPER_MORE = 2
+const MOUSE_POS_LOWER = 3
+const MOUSE_POS_NEGATIVE_UPPER = 4
+const MOUSE_POS_NEGATIVE_UPPER_MORE = 5
+const MOUSE_POS_NEGATIVE_LOWER = 6
+var x_status = MOUSE_POS_NONE
+var y_status = MOUSE_POS_NONE
+#var last_key_emulation "key_none"
+
 func process_mouse(event):
 	if event is InputEventMouseButton:
 		if event.pressed:
 			#print("Mouse pressed at: ", event.position)
 			pressed_x = event.position.x
 			pressed_y = event.position.y
-			print("Mouse pressed x = " + str(pressed_x) + ", y = " + str(pressed_y))
+			#print("Mouse pressed x = " + str(pressed_x) + ", y = " + str(pressed_y))
 		else:
 			print("Mouse released at: ", event.position)
 			pressed_x = -1
 			pressed_y = -1
+			x_status = MOUSE_POS_NONE
+			y_status = MOUSE_POS_NONE
+			emit_signal("key_signal", "key_none", false, false)
 			
 	if event is InputEventMouseMotion:
-		pass
-	
+		if pressed_x < 0:
+			return
+		
+		######## process X positive
+		if x_status == MOUSE_POS_NONE:
+			if (event.position.x - pressed_x) > X_THRESHOULD:
+				x_status = MOUSE_POS_UPPER
+				emit_signal("key_signal", "key_right", true, false)
+				return
+			if (event.position.x - pressed_x) > X_FAST_THRESHOULD:
+				x_status = MOUSE_POS_UPPER_MORE
+				emit_signal("key_signal", "key_right", true, true)
+				return	
+
+			if (pressed_x - event.position.x) > X_THRESHOULD:
+				x_status = MOUSE_POS_NEGATIVE_UPPER
+				emit_signal("key_signal", "key_left", true, false)
+				return
+			if (pressed_x - event.position.x) > X_FAST_THRESHOULD:
+				x_status = MOUSE_POS_NEGATIVE_UPPER_MORE
+				emit_signal("key_signal", "key_left", true, true)
+				return
+				
+		if x_status == MOUSE_POS_UPPER:
+			if (event.position.x - pressed_x) <= X_THRESHOULD:
+				x_status = MOUSE_POS_NONE
+				emit_signal("key_signal", "key_right", false, false)
+				return			
+			if (event.position.x - pressed_x) > X_FAST_THRESHOULD:
+				x_status = MOUSE_POS_UPPER_MORE
+				emit_signal("key_signal", "key_right", true, true)
+				return	
+				
+		if x_status == MOUSE_POS_UPPER_MORE:
+			if (event.position.x - pressed_x) <= X_FAST_THRESHOULD:
+				x_status = MOUSE_POS_UPPER
+				emit_signal("key_signal", "key_right", true, false)
+				return			
+
+		######## process X negative
+				
+		if x_status == MOUSE_POS_NEGATIVE_UPPER:
+			if (pressed_x - event.position.x) <= MOUSE_POS_UPPER:
+				x_status = MOUSE_POS_NONE
+				emit_signal("key_signal", "key_left", false, false)
+				return			
+			if (pressed_x - event.position.x) > X_FAST_THRESHOULD:
+				x_status = MOUSE_POS_NEGATIVE_UPPER_MORE
+				emit_signal("key_signal", "key_left", true, true)
+				return	
+				
+		if x_status == MOUSE_POS_NEGATIVE_UPPER_MORE:
+			if (pressed_x - event.position.x) <= X_FAST_THRESHOULD:
+				x_status = MOUSE_POS_NEGATIVE_UPPER
+				emit_signal("key_signal", "key_left", true, false)
+				return
+				
 func _input(event):
 	if event is InputEventMouseButton or event is InputEventMouseMotion:
 		process_mouse(event)
+		return
+
+	if event.pressed == null:
 		return
 
 	if event.pressed and event.scancode == KEY_SHIFT:

@@ -159,9 +159,9 @@ func start_pull_back():
 	state = ST_PULLING_BACK
 
 func process_key(val, pressed, shift):
-	#print("process_key: got " + val)
+	print("process_key: got " + val)
 	fast_walk = shift
-	#print("fast_walk: " + str(fast_walk))
+	print("fast_walk: " + str(fast_walk))
 	if pressed == false and val != "key_shift":
 		move = MOV_NONE
 		#print("released")
