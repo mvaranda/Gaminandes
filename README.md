@@ -2,6 +2,9 @@
 - Blender 2.93.4
 - GoDot: 3.3.4
 
+## Play
+You can play the game by clicking [here](http://www.varanda.ca/wp/index.php/gaminandes/)
+
 ## License
 
 ### Code
