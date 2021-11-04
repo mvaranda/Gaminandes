@@ -17,7 +17,7 @@ extends Node
 const USE_DELAY = false
 
 var mute_all = false
-var mute_background = false
+var mute_background = true
 
 const NUM_LEVELS = 3
 const NUM_INITIAL_LIFES = 3
@@ -129,11 +129,13 @@ func _ready():
 		life_icons.append( get_node(LIFE_NODE_NAME_PREFIX + str(i)) )
 	update_lifes()
 
+var shift = false
 func check_key(event, key, sig):
 	if event.is_action_pressed(key):
 		if is_action_pressed == false:
 			#print("Key " + sig + " pressed")
-			emit_signal("key_signal", sig, true, false)
+			emit_signal("key_signal", sig, true, shift)
+
 			is_action_pressed = true
 		return true
 	if event.is_action_released(key):
@@ -141,13 +143,47 @@ func check_key(event, key, sig):
 			#print("Key " + sig + " released")
 			emit_signal("key_signal", sig, false, false)
 			is_action_pressed = false
+			shift = false
 		return true
 	return false
 
 func process_debug_signal():
 	process_end_level_signal()
+
+var pressed_x = -1
+var pressed_y = -1
+func process_mouse(event):
+	if event is InputEventMouseButton:
+		if event.pressed:
+			#print("Mouse pressed at: ", event.position)
+			pressed_x = event.position.x
+			pressed_y = event.position.y
+			print("Mouse pressed x = " + str(pressed_x) + ", y = " + str(pressed_y))
+		else:
+			print("Mouse released at: ", event.position)
+			pressed_x = -1
+			pressed_y = -1
+			
+	if event is InputEventMouseMotion:
+		pass
 	
 func _input(event):
+	if event is InputEventMouseButton or event is InputEventMouseMotion:
+		process_mouse(event)
+		return
+
+	if event.pressed and event.scancode == KEY_SHIFT:
+		shift = true
+		print("shift")
+		emit_signal("key_signal", "key_shift", true, true)
+		return
+
+	if event.pressed == false and event.scancode == KEY_SHIFT:
+		shift = false
+		print("shift release")
+		emit_signal("key_signal", "key_shift", false, false)
+		return
+		
 	if check_key(event, "ui_right", "key_right"): return
 	if check_key(event, "ui_left", "key_left"): return
 	if check_key(event, "ui_up", "key_up"): return

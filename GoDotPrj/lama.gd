@@ -26,6 +26,7 @@ const FENCE_NODE_PATHS_PREFIX = "/root/RootNode/Levels/level1/fence_"
 const RED_LIGHT_NODE_NAME = "/red_light"
 const NUM_FENCES = 7
 
+var fast_walk = false
 var fence_nodes_array = []
 var active_fence = 0
 
@@ -57,6 +58,7 @@ const ST_WAIT_RESTART  = 6
 var state = ST_FREE_MOVING
 
 const NORMAL_FWD_SPEED = 0.8
+const FAST_FWD_SPEED = 2.0
 const WALK_FPS = 30.0
 const WALK_START_IMG = 462
 const WALK_FINAL_IMG = 477
@@ -158,7 +160,9 @@ func start_pull_back():
 
 func process_key(val, pressed, shift):
 	#print("process_key: got " + val)
-	if pressed == false:
+	fast_walk = shift
+	#print("fast_walk: " + str(fast_walk))
+	if pressed == false and val != "key_shift":
 		move = MOV_NONE
 		#print("released")
 	else:
@@ -296,10 +300,10 @@ func reset_frame_control():
 	current_frame = 0
 	acc_delta = 0.0
 
-func get_next_frame_back_idx(delta, num_frames):
+func get_next_frame_back_idx(delta, num_frames, speed):
 	num_frames = num_frames - 1
 	acc_delta += delta
-	var nframes = acc_delta  * SPRITES_FPS
+	var nframes = acc_delta  * speed #SPRITES_FPS
 	var idx = 0
 	idx = int(current_frame + nframes)
 	if idx >= num_frames:
@@ -313,28 +317,37 @@ func move_fwd(delta, imgs, fps, rollover):
 	set_surface_material(0, material_one)
 	return idx
 	
-func move_back(delta, imgs):
-	var idx = get_next_frame_back_idx(delta, imgs.size())
+func move_back(delta, imgs, speed):
+	var idx = get_next_frame_back_idx(delta, imgs.size(), speed)
 	material_one.albedo_texture = imgs[idx]
 	set_surface_material(0, material_one)
 
 func _process(delta):
 	if state == ST_FREE_MOVING:
+		var walk_speed
+		var anim_walk_speed
+		if fast_walk:
+			walk_speed = FAST_FWD_SPEED
+			anim_walk_speed = WALK_FPS * 2
+		else:
+			walk_speed = NORMAL_FWD_SPEED
+			anim_walk_speed = WALK_FPS
+			
 		if move == MOV_FWD:
 			if is_inside_fence == false:
-				transform.origin.x += NORMAL_FWD_SPEED * delta
+				transform.origin.x += walk_speed * delta
 				emit_signal("lama_position_signal", transform.origin.x)
 			else:
 				if light_node.light_is_on:
 					start_shock()
 					return
-			move_fwd(delta, walk_images, WALK_FPS, true) # animate sprite fwd
+			move_fwd(delta, walk_images, anim_walk_speed, true) # animate sprite fwd
 			
 		if move == MOV_BACK:
 			if track_limit == false:
-				transform.origin.x -= NORMAL_FWD_SPEED * delta
+				transform.origin.x -= walk_speed * delta
 				emit_signal("lama_position_signal", transform.origin.x)
-			move_back(delta, walk_images)
+			move_back(delta, walk_images, anim_walk_speed)
 			
 	if state == ST_SNAPING:
 		var idx = move_fwd(delta, snap_images, SNAP_FPS, false)
